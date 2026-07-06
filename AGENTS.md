@@ -125,6 +125,7 @@ This repository is intended to support AI-assisted:
 
 The AI agent must always follow the documented business rules and QA standards contained in this repository.
 
+
 # 2. Repository Structure
 
 ## Overview
