@@ -248,6 +248,148 @@ Contains testing resources such as:
 
 No production credentials or sensitive information should be stored in this directory.
 
+# 3. Development Environment
+
+## Overview
+
+The Drafters platform consists of Web, Android, iOS, Backend, and Admin Portal applications.
+
+QA testing is primarily performed using dedicated staging environments. Local development setup is typically used by the development team, while QA validates features using deployed staging builds and production build.
+
+---
+
+## Web Application
+
+Environment:
+- Staging
+- Production
+
+QA Activities:
+- Functional Testing
+- Regression Testing
+- Cross-browser Testing
+- UI/UX Validation
+- API Verification
+- Console Log Verification
+
+---
+
+## Android Application
+
+Build Distribution:
+- Staging APK
+- production APK
+
+QA Activities:
+- Functional Testing
+- Regression Testing
+- UI Validation
+- Deep Link Testing
+- Push Notification Testing
+- Payment Flow Validation
+
+---
+
+## iOS Application
+
+Build Distribution:
+- Staging IPA
+- TestFlight (production)
+
+QA Activities:
+- Functional Testing
+- Regression Testing
+- User Journey Validation
+- Payment Flow Validation
+- Push Notification Testing
+- Email Journey Verification
+
+---
+
+## Admin Portal
+
+Environment:
+- Staging
+
+QA Activities:
+- Feature Configuration
+- Contest Management
+- Payment Configuration
+- Responsible Gaming Configuration
+- User Management
+- Reporting Validation
+
+---
+
+## Backend Services
+
+Backend services are deployed to staging environments and are validated through:
+
+- API Testing
+- Database Verification
+- Log Analysis
+- Integration Testing
+
+---
+
+## AI Agent Instructions
+
+AI agents should assume that testing is performed against the latest available staging environment unless explicitly instructed otherwise.
+
+Do not assume that local development environments are available.
+
+Always reference the appropriate environment before generating test cases or automation scripts.
+
+Never perform destructive operations against production environments.
+
+# 4. Environment URLs
+
+## Overview
+
+The Drafters platform is deployed across multiple environments. Actual URLs are managed securely and should not be stored in this repository.
+
+AI agents should use the appropriate environment provided by the QA or development team.
+
+---
+
+## Development Environment
+
+| Component | URL |
+|-----------|-----|
+| Web | `<DEV_WEB_URL>` |
+| Backend API | `<DEV_API_URL>` |
+| Admin Portal | `<DEV_ADMIN_URL>` |
+
+---
+
+## Staging Environment
+
+| Component | URL |
+|-----------|-----|
+| Web | `<STAGING_WEB_URL>` |
+| Backend API | `<STAGING_API_URL>` |
+| Admin Portal | `<STAGING_ADMIN_URL>` |
+| Android | `<STAGING_ANDROID_BUILD>` |
+| iOS | `<TESTFLIGHT_STAGING_BUILD>` |
+
+---
+
+## Production Environment (Reference Only)
+
+| Component | URL |
+|-----------|-----|
+| Web | `<PRODUCTION_WEB_URL>` |
+| Backend API | `<PRODUCTION_API_URL>` |
+| Admin Portal | `<PRODUCTION_ADMIN_URL>` |
+
+---
+
+## Security Guidelines
+
+- Never store production URLs, credentials, or API keys directly in this repository.
+- Environment-specific values should be obtained from the organization's secure configuration or secret management system.
+- AI agents must never perform destructive operations against production environments.
+
 ---
 
 ### reports/
