@@ -86,16 +86,19 @@ The platform supports Web, Android, iOS, and an Admin Portal used for contest ma
 
 ### Mobile
 
-- Android
-- iOS
+- Android-kotlin
+- iOS-swift
 
 ### Backend
 
 - NestJS
+- nodeJS
+- php
 
 ### Database
 
 - MongoDB
+- mysql
 
 ### Cache
 
