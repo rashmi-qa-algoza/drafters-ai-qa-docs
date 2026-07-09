@@ -207,6 +207,7 @@ Detailed API documentation should be maintained in the `/api` directory.
 - Remember Me stores the authenticated session according to application policy.
 - Authenticated users are redirected to the Lobby/Home page.
 - Logout terminates the active session.
+- If "Remember Me" is selected, the user's login session is retained according to the application's session policy, allowing the user to remain signed in across browser sessions until logout or session expiration.
 
 ---
 
@@ -224,7 +225,9 @@ Detailed API documentation should be maintained in the `/api` directory.
 
 - Login with valid email.
 - Login with valid password.
-- Login with Remember Me enabled.
+- Login with Remember Me selected.
+- Login without Remember Me selected.
+- Verify session persists after browser restart when Remember Me is enabled.
 - Login on Web.
 - Login on Android.
 - Login on iOS.
@@ -252,6 +255,9 @@ Detailed API documentation should be maintained in the `/api` directory.
 - Browser refresh during login.
 - Session timeout.
 - Concurrent login attempts.
+- Remember Me enabled with browser restart.
+- Remember Me disabled with browser restart.
+- Logout after Remember Me session.
 
 ---
 
@@ -310,7 +316,8 @@ Sensitive credentials should not be committed to the repository.
 
 - Login flow.
 - Validation messages.
-- Remember Me.
+- Remember Me functionality.
+- Session persistence after browser restart.
 - Logout.
 - Session validation.
 
