@@ -217,6 +217,8 @@ The Authentication APIs should:
 - Generate a secure authentication token.
 - Return user profile information after successful login.
 - Return meaningful error messages for failed authentication.
+- Validate reCAPTCHA where applicable.
+- Enforce Two-Factor Authentication (2FA) for Admin Portal authentication.
 
 **Note:** API endpoint URLs and request/response payloads should be documented in the `api/` folder.
 
@@ -282,6 +284,15 @@ The Authentication module follows the business rules below.
 - Authentication tokens must be securely stored.
 - Sensitive information must not be exposed in API responses.
 
+### Security Features
+
+The Authentication module includes the following security features:
+
+- reCAPTCHA validation on supported platforms.
+- Two-Factor Authentication (2FA) for Admin Portal users.
+- Secure session management.
+- Protected access to authenticated resources.
+
 ---
 
 # 11. Validation Rules
@@ -346,7 +357,8 @@ These settings determine how users authenticate and how authentication sessions 
 - Maximum Failed Login Attempts
 - Account Lockout Duration
 - Password Policy Configuration
-- Multi-Factor Authentication (if supported)
+- Two-Factor Authentication (2FA) Configuration for Admin Portal
+- reCAPTCHA Configuration
 - Maintenance Mode
 - Allowed User Roles
 
@@ -364,12 +376,12 @@ Verify that:
 
 Authentication-related functionality may be controlled using feature flags.
 
-| Feature Flag | Description | Default Status |
-|--------------|-------------|----------------|
+| Feature / Configuration | Description | Status |
+|-------------------------|-------------|--------|
 | Authentication Enabled | Enables user login | Enabled |
 | Forgot Password | Enables password recovery | Enabled |
-| Remember Me | Enables persistent login | Configurable |
-| MFA Authentication | Enables multi-factor authentication | Configurable |
+| reCAPTCHA Protection | Prevents automated login attempts and enhances authentication security | Enabled (Supported Platforms) |
+| Two-Factor Authentication (2FA) | Additional authentication for Admin Portal access | Enabled (Admin Portal) |
 
 ### QA Validation
 
@@ -450,6 +462,14 @@ If the Authentication service is unavailable:
 - Verify session expiration.
 - Verify unauthorized access restriction.
 - Verify secure password handling.
+
+## Security Test Scenarios
+
+- Verify reCAPTCHA is displayed and functions correctly on supported platforms.
+- Verify login cannot bypass reCAPTCHA validation.
+- Verify Admin Portal requires successful Two-Factor Authentication (2FA).
+- Verify unauthorized users cannot bypass authentication.
+- Verify expired sessions require re-authentication.
 
 ## Cross-Platform Test Scenarios
 
@@ -645,6 +665,17 @@ Verify:
 - Expired sessions should require re-authentication.
 - Authentication should prevent unauthorized access to protected resources.
 
+### Implemented Security Features
+
+The Authentication module currently includes the following security measures:
+
+- reCAPTCHA protection on supported platforms.
+- Two-Factor Authentication (2FA) for Admin Portal authentication.
+- Secure password masking.
+- Authenticated session management.
+- HTTPS communication.
+- Protected access to authenticated resources.
+
 ---
 
 # 21. Error Handling
@@ -689,18 +720,14 @@ This section should be updated whenever Authentication-related issues are identi
 
 # 23. Future Enhancements
 
-Potential improvements for the Authentication module may include:
+Future enhancements for the Authentication module will be documented as they are approved by the Product and Engineering teams.
 
-- Multi-Factor Authentication (MFA)
-- Biometric Authentication
-- Social Login (Google, Apple, etc.)
-- Passwordless Authentication
-- Improved Device Management
-- Login Activity History
-- Enhanced Security Notifications
-- Adaptive Authentication based on risk analysis
+Currently documented security features include:
 
-Future enhancements should be documented and updated as they become part of the product roadmap.
+- Two-Factor Authentication (2FA) for the Admin Portal.
+- reCAPTCHA integration on supported platforms.
+
+No additional future enhancements are available at this time.
 
 ---
 
