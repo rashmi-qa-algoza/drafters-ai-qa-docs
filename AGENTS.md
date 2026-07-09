@@ -4272,8 +4272,6 @@ Examples:
 
 AI agents should verify the active environment before reporting issues.
 
----
-
 # Performance Limitations
 
 Document known performance constraints such as:
