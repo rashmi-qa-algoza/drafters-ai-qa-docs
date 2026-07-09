@@ -12,7 +12,6 @@ It provides comprehensive documentation for business workflows, quality assuranc
 
 This repository serves as the single source of truth for understanding how the Drafters platform works across Web, Android, iOS, and the Admin Portal.
 
----
 
 # Objectives
 
