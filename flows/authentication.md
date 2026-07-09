@@ -2,17 +2,21 @@
 
 > **Module:** Authentication
 >
-> **Version:** 1.0
->
-> **Owner:** Drafters QA Team
->
-> **Status:** Active
+> **Application:** Drafters Fantasy Sports
 >
 > **Platforms:** Web | Android | iOS
 >
-> **Last Updated:** YYYY-MM-DD
+> **Business Owner:** Product Team
 >
-> **Reviewed By:** __________________
+> **Technical Owner:** Engineering Team
+>
+> **QA Owner:** QA Team
+>
+> **Status:** Active
+>
+> **Version:** 1.0
+>
+> **Last Updated:** YYYY-MM-DD
 
 ---
 
@@ -20,29 +24,30 @@
 
 1. Overview
 2. Business Purpose
-3. Scope
-4. User Personas
-5. User Flow
-6. Business Workflow
-7. UI Screens
-8. Backend APIs
-9. Database Impact
-10. Business Rules
-11. Validation Rules
-12. Platform Behaviour
-13. Admin Configuration
-14. Feature Flags
-15. Dependencies
-16. Test Scenarios
-17. Test Data
-18. Automation Strategy
-19. Performance Considerations
-20. Security Considerations
-21. Error Handling
-22. Known Issues
-23. Future Enhancements
-24. Related Documentation
-25. Revision History
+3. Preconditions
+4. User Flow
+5. UI Screens
+6. Backend APIs
+7. Business Rules
+8. Validation Rules
+9. Positive Scenarios
+10. Negative Scenarios
+11. Edge Cases
+12. Error Messages
+13. Platform Differences
+14. Admin Configuration
+15. Test Data
+16. Automation Strategy
+17. AI Implementation
+18. Dependencies
+19. Security Considerations
+20. Performance Considerations
+21. Accessibility Considerations
+22. Related Modules
+23. Known Issues
+24. Future Enhancements
+25. Related Documentation
+26. Revision History
 
 ---
 
@@ -50,713 +55,395 @@
 
 ## Description
 
-The Authentication module enables users to securely access the Drafters Fantasy Sports platform. It verifies user credentials, establishes authenticated sessions, and restricts access to protected features such as Wallet, Contests, Draft, Pick'em, Rankings, and Profile.
+The Authentication module allows registered users to securely access the Drafters Fantasy Sports platform.
 
-Authentication is the entry point for all registered users across Web, Android, and iOS applications.
+Drafters is a fantasy sports platform primarily serving users in the United States and Canada across Web, Android, and iOS platforms.
 
-## Purpose
+Authentication validates user credentials, establishes a secure authenticated session, and provides access to protected modules such as Profile, Wallet, KYC, Lobby, Draft, Pick'em, Rankings, Rewards, and other fantasy sports features.
 
-- Authenticate registered users.
-- Protect user accounts.
-- Enable secure access to platform features.
-- Maintain authenticated user sessions.
-- Support secure logout and session management.
+Only registered users with valid credentials can successfully authenticate.
 
 ---
 
 # 2. Business Purpose
 
-Authentication ensures that only valid and authorized users can access the Drafters platform. It serves as the foundation for account security, user personalization, and access to fantasy sports contests and financial features.
+The Authentication module is designed to:
+
+- Verify registered user credentials.
+- Authenticate users securely.
+- Create authenticated user sessions.
+- Prevent unauthorized access.
+- Protect user accounts.
+- Support Remember Me functionality.
+- Redirect authenticated users to the application.
 
 ---
 
-# 3. Scope
+# 3. Preconditions
 
-## In Scope
+Before login begins:
 
-- User Login
-- Session Creation
-- Session Validation
-- Remember Me (if supported)
-- Logout
-- Authentication Error Handling
-
-## Out of Scope
-
-- User Registration
-- Forgot Password
-- Email Verification
-- KYC Verification
-- Wallet Authentication
-
-These are documented in their respective flow documents.
+- User account already exists.
+- Registration has been completed.
+- OTP verification (if required during registration) has been completed.
+- Authentication API is available.
+- Internet connection is available.
+- User is not already logged in.
 
 ---
 
-# 4. User Personas
-
-| User | Description |
-|------|-------------|
-| End User | Logs into the Drafters platform to access fantasy sports features. |
-| QA Engineer | Validates authentication workflows across supported platforms. |
-| Support Team | Assists users experiencing login or account access issues. |
-
----
-
-# 5. User Flow
+# 4. User Flow
 
 ```text
-User Opens Drafters App
+Open Drafters
+
         │
+
         ▼
+
+Click LOG IN
+
+        │
+
+        ▼
+
 Login Screen
+
         │
+
         ▼
-Enter Email & Password
+
+Enter Email
+
+Enter Password
+
+(Optional) Remember Me
+
         │
+
         ▼
-Click Login
+
+Click LOG IN
+
         │
+
         ▼
-Request Sent to Authentication API
+
+Backend Authentication
+
         │
+
         ▼
+
 Credentials Valid?
-     ┌───────────┐
-     │           │
-   Yes           No
-     │           │
-     ▼           ▼
-Create Session   Show Error Message
-     │
-     ▼
-Redirect to Lobby / Home
+
+      │             │
+      │             │
+     Yes           No
+      │             │
+      ▼             ▼
+
+Create Session    Display Error
+
+      │
+
+      ▼
+
+Redirect to Lobby / Home Page
 ```
 
 ---
 
-# 6. Business Workflow
+# 5. UI Screens
 
-### Preconditions
+## 5.1 Login Screen
 
-- User account exists.
-- Account is active.
-- Backend authentication service is available.
+### Purpose
 
-### Trigger
+Allows registered users to securely access their Drafters account.
 
-User submits valid login credentials.
+### Input Fields
 
-### Processing
+| Field | Required | Description |
+|--------|----------|-------------|
+| Email | Yes | Registered email address |
+| Password | Yes | Account password |
 
-- Validate email.
-- Validate password.
-- Authenticate user.
-- Create session.
-- Generate authentication token.
-- Redirect to Lobby.
+### Checkbox
 
-### Output
+- Remember Me
 
-Authenticated user session is created successfully.
+### Buttons
 
----
+- Log In
+- Register
 
-This is exactly how enterprise documentation is written.
+### Links
 
-# 7. UI Screens
-
-The Authentication module consists of the following user interfaces across supported platforms.
-
-| Platform | Screen | Description |
-|----------|--------|-------------|
-| Web | Login | Allows registered users to authenticate using email and password. |
-| Android | Login | Native mobile login screen with authentication validation. |
-| iOS | Login | Native iOS login screen with authentication validation. |
-
-## UI Components
-
-The Login screen includes:
-
-- Email Address
-- Password
-- Show/Hide Password
-- Login Button
-- Forgot Password Link
-- Create Account Link
-- Validation Messages
-- Loading Indicator
-
-### Expected Behaviour
-
-- Login button remains disabled or validation prevents submission when mandatory fields are empty.
-- Password remains masked by default.
-- Loading indicator is displayed while authentication is in progress.
-- Error messages are displayed near the relevant field or as a toast/dialog.
-- Successful authentication redirects the user to the Lobby/Home screen.
+- Forgot Password
+- Contact Support
 
 ---
 
-# 8. Backend APIs
+# 6. Backend APIs
 
-The Authentication module communicates with backend authentication services to validate user credentials and establish an authenticated session.
+Authentication module communicates with:
 
-| API | Method | Purpose |
-|------|--------|----------|
-| Login API | POST | Authenticate user credentials |
-| User Profile API | GET | Fetch authenticated user information |
-| Refresh Token API (if implemented) | POST | Refresh authentication session |
-| Logout API | POST | End authenticated session |
+- Login API
+- Session API
+- User Profile API
+- Token Validation API
 
-## Expected API Behaviour
-
-The Authentication APIs should:
-
-- Validate email and password.
-- Return appropriate HTTP status codes.
-- Generate a secure authentication token.
-- Return user profile information after successful login.
-- Return meaningful error messages for failed authentication.
-- Validate reCAPTCHA where applicable.
-- Enforce Two-Factor Authentication (2FA) for Admin Portal authentication.
-
-**Note:** API endpoint URLs and request/response payloads should be documented in the `api/` folder.
+Detailed API documentation should be maintained in the `/api` directory.
 
 ---
 
-# 9. Database Impact
-
-Successful authentication may result in updates to backend data depending on the implementation.
-
-Possible database operations include:
-
-### Insert
-
-- User session
-- Authentication token
-- Login audit record
-
-### Update
-
-- Last Login Timestamp
-- Last Active Timestamp
-- Device Information
-- Login Count
-
-### Delete
-
-- Expired Sessions
-- Revoked Tokens (during logout)
-
-### Audit
-
-Authentication events may be logged for:
-
-- Successful Login
-- Failed Login
-- Logout
-- Suspicious Activity
-
----
-
-# 10. Business Rules
-
-The Authentication module follows the business rules below.
-
-### Authentication Rules
+# 7. Business Rules
 
 - Only registered users can log in.
-- Users must provide valid credentials.
+- Email and password must match an existing account.
 - Authentication is required before accessing protected modules.
-- Each authenticated session must belong to a valid user account.
-- Sessions expire after the configured timeout period.
-- Logged-out users must re-authenticate before accessing protected pages.
-
-### Session Rules
-
-- Only authenticated sessions may access protected APIs.
-- Expired sessions must redirect users to the Login page.
-- Invalid or expired tokens must not grant access.
-
-### Security Rules
-
-- Passwords must never be displayed in plain text.
-- Authentication tokens must be securely stored.
-- Sensitive information must not be exposed in API responses.
-
-### Security Features
-
-The Authentication module includes the following security features:
-
-- reCAPTCHA validation on supported platforms.
-- Two-Factor Authentication (2FA) for Admin Portal users.
-- Secure session management.
-- Protected access to authenticated resources.
+- Invalid credentials must not create a session.
+- Remember Me stores the authenticated session according to application policy.
+- Authenticated users are redirected to the Lobby/Home page.
+- Logout terminates the active session.
 
 ---
 
-# 11. Validation Rules
+# 8. Validation Rules
 
-The following validations should be verified during QA.
-
-## Email Validation
-
-- Required field.
-- Valid email format.
-- Leading/trailing spaces should be trimmed.
-- Invalid email formats should be rejected.
-
-## Password Validation
-
-- Required field.
-- Password should remain masked by default.
-- Show/Hide Password should function correctly.
-
-## Login Validation
-
-- Empty credentials should not be accepted.
-- Invalid credentials should display an appropriate error.
-- Multiple rapid login attempts should be handled correctly.
-- Authentication requests should not be submitted multiple times by repeated button taps.
+| Field | Validation |
+|--------|------------|
+| Email | Required, valid email format |
+| Password | Required |
+| Remember Me | Optional |
 
 ---
 
-# 12. Platform Behaviour
+# 9. Positive Scenarios
 
-The Authentication experience should remain consistent across all supported platforms.
-
-| Behaviour | Web | Android | iOS |
-|-----------|-----|----------|------|
-| Login Screen | ✅ | ✅ | ✅ |
-| Email Validation | ✅ | ✅ | ✅ |
-| Password Masking | ✅ | ✅ | ✅ |
-| Show/Hide Password | ✅ | ✅ | ✅ |
-| Loading Indicator | ✅ | ✅ | ✅ |
-| Error Messages | ✅ | ✅ | ✅ |
-| Successful Redirect | Lobby | Lobby | Lobby |
-
-## Platform Notes
-
-- UI layout may differ between Web and Mobile devices.
-- Native keyboard behaviour differs on Android and iOS.
-- Authentication business logic must remain consistent across all platforms.
-- Any intentional platform differences should be documented and approved.
-
-# 13. Admin Configuration
-
-## Overview
-
-The Authentication module may include configurable settings that can be managed through the Admin Portal or backend configuration.
-
-These settings determine how users authenticate and how authentication sessions are managed.
-
-### Possible Configurations
-
-- Enable or Disable User Login
-- Session Timeout Duration
-- Maximum Failed Login Attempts
-- Account Lockout Duration
-- Password Policy Configuration
-- Two-Factor Authentication (2FA) Configuration for Admin Portal
-- reCAPTCHA Configuration
-- Maintenance Mode
-- Allowed User Roles
-
-### QA Validation
-
-Verify that:
-
-- Configuration changes are reflected correctly.
-- Unauthorized users cannot modify authentication settings.
-- Configuration changes do not impact existing active sessions unless intended.
+- Login with valid email.
+- Login with valid password.
+- Login with Remember Me enabled.
+- Login on Web.
+- Login on Android.
+- Login on iOS.
+- Logout successfully.
 
 ---
 
-# 14. Feature Flags
-
-Authentication-related functionality may be controlled using feature flags.
-
-| Feature / Configuration | Description | Status |
-|-------------------------|-------------|--------|
-| Authentication Enabled | Enables user login | Enabled |
-| Forgot Password | Enables password recovery | Enabled |
-| reCAPTCHA Protection | Prevents automated login attempts and enhances authentication security | Enabled (Supported Platforms) |
-| Two-Factor Authentication (2FA) | Additional authentication for Admin Portal access | Enabled (Admin Portal) |
-
-### QA Validation
-
-Verify:
-
-- Feature flag changes are reflected correctly.
-- Disabled features are not accessible.
-- No UI elements are displayed for disabled functionality.
-- Feature availability matches the current environment configuration.
-
----
-
-# 15. Dependencies
-
-The Authentication module depends on several internal and external services.
-
-## Internal Dependencies
-
-- User Management
-- User Profile
-- Session Management
-- Notification Service
-- Audit Logging
-
-## External Dependencies
-
-- Authentication API
-- Email Service (Forgot Password)
-- OTP Service (if implemented)
-- Identity Provider (if applicable)
-
-### Impact Analysis
-
-If the Authentication service is unavailable:
-
-- Users cannot log in.
-- Protected features become inaccessible.
-- Session validation may fail.
-- Dependent modules such as Wallet, Contest, and Draft cannot be accessed.
-
----
-
-# 16. Test Scenarios
-
-## Functional Test Scenarios
-
-- Login with valid credentials.
-- Login with invalid credentials.
-- Login with inactive account.
-- Login after successful password reset.
-- Verify logout functionality.
-- Verify session timeout.
-- Verify automatic redirection after login.
-
-## Validation Test Scenarios
+# 10. Negative Scenarios
 
 - Empty email.
 - Empty password.
 - Invalid email format.
+- Incorrect password.
+- Unregistered email.
+- Authentication API failure.
+- Network interruption.
+
+---
+
+# 11. Edge Cases
+
 - Leading/trailing spaces.
-- Special characters.
-- Maximum character length.
-- Minimum character length.
+- Email case sensitivity.
+- Multiple login attempts.
+- Browser refresh during login.
+- Session timeout.
+- Concurrent login attempts.
 
-## UI Test Scenarios
+---
 
-- Verify Login screen layout.
-- Verify button alignment.
-- Verify labels and placeholders.
-- Verify password masking.
-- Verify Show/Hide Password.
-- Verify loading indicator.
+# 12. Error Messages
 
-## Security Test Scenarios
+| Scenario | Expected Result |
+|----------|-----------------|
+| Invalid Credentials | Invalid email or password |
+| Invalid Email | Invalid email format |
+| Empty Fields | Required field validation |
+| Network Failure | Unable to process request |
+| Server Error | Something went wrong |
 
-- Verify authentication token generation.
-- Verify invalid token handling.
-- Verify session expiration.
-- Verify unauthorized access restriction.
-- Verify secure password handling.
+Use the exact production messages whenever possible.
 
-## Security Test Scenarios
+---
 
-- Verify reCAPTCHA is displayed and functions correctly on supported platforms.
-- Verify login cannot bypass reCAPTCHA validation.
-- Verify Admin Portal requires successful Two-Factor Authentication (2FA).
-- Verify unauthorized users cannot bypass authentication.
-- Verify expired sessions require re-authentication.
+# 13. Platform Differences
 
-## Cross-Platform Test Scenarios
+| Feature | Web | Android | iOS |
+|----------|-----|----------|-----|
+| Login Screen | Supported | Supported | Supported |
+| Remember Me | Supported | Supported | Supported |
+| Business Rules | Same | Same | Same |
 
-Verify Authentication on:
+---
 
-- Web
-- Android
-- iOS
+# 14. Admin Configuration
 
-Validate:
+Authentication behavior may be configured through:
 
-- Business logic
-- UI consistency
-- Validation messages
-- Navigation
-- Error handling
+- Session timeout
+- Remember Me duration
+- Security settings
+- Feature flags
 
-## Regression Test Scenarios
+---
 
-Verify that Authentication changes do not impact:
+# 15. Test Data
+
+| Scenario | Test Data |
+|----------|-----------|
+| Valid User | Registered account |
+| Invalid Email | Incorrect email |
+| Invalid Password | Incorrect password |
+| Empty Email | Blank |
+| Empty Password | Blank |
+
+Sensitive credentials should not be committed to the repository.
+
+---
+
+# 16. Automation Strategy
+
+### UI Automation
+
+- Login flow.
+- Validation messages.
+- Remember Me.
+- Logout.
+- Session validation.
+
+### API Automation
+
+- Login API.
+- Session API.
+
+### Regression
+
+- Cross-browser.
+- Cross-platform.
+
+Recommended Frameworks:
+
+- Playwright
+- Appium
+
+---
+
+# 17. AI Implementation
+
+## Automation Priority
+
+High
+
+## AI Tasks
+
+AI should be able to:
+
+- Generate login automation.
+- Generate logout automation.
+- Generate API tests.
+- Generate regression scenarios.
+- Review authentication rules.
+
+## Recommended Prompts
+
+Generate Playwright automation for Authentication.
+
+Generate Appium automation for Authentication.
+
+Generate Authentication API tests.
+
+Generate Authentication regression suite.
+
+Review Authentication business rules.
+
+---
+
+# 18. Dependencies
+
+Authentication depends on:
+
+- Registration
+- User Service
+- Session Service
+- Profile
+
+---
+
+# 19. Security Considerations
+
+- HTTPS communication.
+- Secure session management.
+- Password encryption.
+- Unauthorized access prevention.
+- Session termination on logout.
+- Secure token handling.
+
+---
+
+# 20. Performance Considerations
+
+- Login response should be within acceptable response time.
+- Session should be created immediately after successful authentication.
+- Duplicate login requests should be handled correctly.
+
+---
+
+# 21. Accessibility Considerations
+
+Verify:
+
+- Keyboard navigation.
+- Screen reader support.
+- Focus order.
+- Form labels.
+- Validation accessibility.
+- Color contrast.
+
+---
+
+# 22. Related Modules
 
 - Registration
 - Forgot Password
 - Profile
+- KYC
 - Wallet
-- Contest
-- Draft
-- Pick'em
-
-## Edge Cases
-
-- Rapid multiple login attempts.
-- Poor internet connection.
-- API timeout.
-- Server unavailable.
-- Session expires while using the application.
-- User logs in on multiple devices.
-- App is minimized during login.
-- Network changes from Wi-Fi to Mobile Data during authentication.
+- Lobby
 
 ---
 
-# 17. Test Data
+# 23. Known Issues
 
-The following test data should be prepared before testing.
+Document current known issues affecting Authentication.
 
-## Test Accounts
-
-- Valid User
-- Invalid User
-- Blocked User
-- Inactive User
-- Newly Registered User
-
-## Required Data
-
-- Registered Email Address
-- Valid Password
-- Invalid Password
-- Expired Session Token
-- Invalid Authentication Token
-
-## Environment
-
-- Development
-- Staging
-- Production (Smoke Testing Only)
-
-### Prerequisites
-
-- Authentication service is available.
-- Backend APIs are operational.
-- Test accounts are active.
-- Environment configuration is verified.
+Leave blank if none exist.
 
 ---
 
-# 18. Automation Strategy
+# 24. Future Enhancements
 
-## Automation Scope
+Document only confirmed product roadmap items.
 
-The following scenarios are recommended for automation.
-
-### Smoke Tests
-
-- Successful Login
-- Logout
-- Session Validation
-
-### Regression Tests
-
-- Valid Login
-- Invalid Login
-- Validation Messages
-- Session Expiry
-- Authentication Errors
-
-### API Automation
-
-- Login API
-- Logout API
-- Session Validation API
-- Refresh Token API
-
-### UI Automation
-
-Supported frameworks:
-
-- Cypress (Web)
-- Appium (Android & iOS)
-- Playwright (if adopted)
-
-### Automation Priority
-
-**High**
-
-Authentication is a critical business module and should be included in every smoke and regression suite.
-
-### Recommended Automation Coverage
-
-- Positive Scenarios
-- Negative Scenarios
-- Boundary Validations
-- Cross-Platform Login
-- Authentication Error Handling
-- Session Management
-
-# 19. Performance Considerations
-
-## Overview
-
-The Authentication module should provide a fast, secure, and reliable login experience across all supported platforms.
-
-Performance should be monitored to ensure users can authenticate without noticeable delays while maintaining security and system stability.
-
-### Performance Expectations
-
-| Operation | Expected Behavior |
-|------------|-------------------|
-| Login Screen Load | Screen loads successfully without delay |
-| Login API Response | Response received within acceptable time |
-| Authentication | User authenticated without unnecessary waiting |
-| Session Creation | Session created successfully |
-| Redirect | User redirected to Lobby/Home after successful login |
-
-### Performance Validation
-
-Verify:
-
-- Login screen loads correctly.
-- Loading indicator appears during authentication.
-- Multiple login requests are not triggered.
-- Slow network is handled gracefully.
-- Authentication does not freeze the application.
-- API timeout is handled correctly.
-
-### Performance Monitoring
-
-Monitor:
-
-- Login API response time
-- Screen load time
-- Network latency
-- Application responsiveness
-- Crash-free authentication flow
+Avoid documenting speculative enhancements.
 
 ---
 
-# 20. Security Considerations
-
-## Overview
-
-Authentication is one of the most security-critical modules of the Drafters platform.
-
-User credentials and authentication sessions must be handled securely to protect user accounts and platform resources.
-
-### Security Requirements
-
-Verify:
-
-- Password is masked by default.
-- Password is never displayed in plain text.
-- Authentication token is securely stored.
-- Sensitive information is never exposed.
-- Sessions expire correctly.
-- Unauthorized users cannot access protected pages.
-
-### Security Validation
-
-- Invalid credentials should not reveal account information.
-- Authentication APIs should require HTTPS.
-- API responses should not expose internal implementation details.
-- Expired sessions should require re-authentication.
-- Authentication should prevent unauthorized access to protected resources.
-
-### Implemented Security Features
-
-The Authentication module currently includes the following security measures:
-
-- reCAPTCHA protection on supported platforms.
-- Two-Factor Authentication (2FA) for Admin Portal authentication.
-- Secure password masking.
-- Authenticated session management.
-- HTTPS communication.
-- Protected access to authenticated resources.
-
----
-
-# 21. Error Handling
-
-Authentication should provide meaningful error messages and gracefully handle unexpected situations.
-
-| Scenario | Expected Result |
-|----------|-----------------|
-| Invalid Email | Display validation message |
-| Invalid Password | Display authentication error |
-| Empty Email | Required field validation |
-| Empty Password | Required field validation |
-| Invalid Credentials | Login should fail with appropriate message |
-| Network Failure | Display network error |
-| API Timeout | Inform the user and allow retry |
-| Server Error | Show generic error message |
-| Session Expired | Redirect user to Login screen |
-| Unauthorized Request | Return authentication error |
-
-### Error Handling Guidelines
-
-Verify:
-
-- User-friendly error messages
-- No application crashes
-- Retry option where applicable
-- No sensitive information exposed in error messages
-
----
-
-# 22. Known Issues
-
-This section should be updated whenever Authentication-related issues are identified and acknowledged by the team.
-
-| Issue | Platform | Status | Reference |
-|---------|----------|--------|-----------|
-| None Currently Documented | All | N/A | N/A |
-
-> Update this section with JIRA IDs or issue tracker references as new known issues are identified.
-
----
-
-# 23. Future Enhancements
-
-Future enhancements for the Authentication module will be documented as they are approved by the Product and Engineering teams.
-
-Currently documented security features include:
-
-- Two-Factor Authentication (2FA) for the Admin Portal.
-- reCAPTCHA integration on supported platforms.
-
-No additional future enhancements are available at this time.
-
----
-
-# 24. Related Documentation
-
-### Repository Documents
+# 25. Related Documentation
 
 - AGENTS.md
 - README.md
-
-### Related Flows
-
-- registration.md
-- login.md
-- forgot-password.md
-- profile.md
-- kyc.md
-
-### Related Documentation
-
-- API Documentation
-- Automation Documentation
-- Release Notes
-- Architecture Documentation
+- architecture/system-overview.md
+- flows/registration.md
+- flows/forgot-password.md
+- api/authentication-api.md
 
 ---
 
-# 25. Revision History
+# 26. Revision History
 
 | Version | Date | Author | Description |
 |----------|------|--------|-------------|
-| 1.0 | YYYY-MM-DD | QA Team | Initial documentation created |
+| 1.0 | YYYY-MM-DD | QA Team | Initial Version |
