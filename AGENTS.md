@@ -2056,3 +2056,2522 @@ Always verify:
 - automation/
 - reports/
 - release-notes/
+
+# 11. API QA Guidelines
+
+## Overview
+
+This section defines the standard API Quality Assurance (QA) guidelines for the Drafters platform.
+
+All backend APIs should be validated to ensure they meet functional requirements, business rules, security standards, and performance expectations.
+
+These guidelines apply to all APIs used by the Web Application, Android Application, iOS Application, and Admin Portal.
+
+---
+
+# API Testing Objectives
+
+The primary objectives of API testing are to verify:
+
+- Functional correctness
+- Business rule compliance
+- Data integrity
+- Security
+- Performance
+- Reliability
+- Error handling
+- Backward compatibility
+
+---
+
+# Standard API Validation Checklist
+
+Every API should be validated for the following:
+
+## Request Validation
+
+Verify:
+
+- Correct HTTP Method (GET, POST, PUT, PATCH, DELETE)
+- Required headers
+- Authentication token
+- Request body
+- Query parameters
+- Path parameters
+- Request schema validation
+
+---
+
+## Response Validation
+
+Verify:
+
+- Correct HTTP Status Code
+- JSON response format
+- Response schema
+- Required response fields
+- Correct data types
+- Expected business data
+- Pagination (where applicable)
+
+---
+
+## Authentication & Authorization
+
+Verify:
+
+- Authorized users can access the API.
+- Unauthorized requests return appropriate error codes.
+- Invalid or expired tokens are rejected.
+- Role-based permissions are enforced.
+- Protected APIs require authentication.
+
+---
+
+## Business Logic Validation
+
+Verify:
+
+- Business rules are correctly implemented.
+- Invalid operations are rejected.
+- Duplicate operations are handled correctly.
+- State changes are accurate.
+- Data consistency is maintained.
+
+---
+
+## Input Validation
+
+Verify:
+
+- Required fields
+- Empty values
+- Invalid values
+- Maximum length
+- Minimum length
+- Invalid data types
+- Boundary values
+- Special characters
+- SQL Injection protection
+- XSS protection (where applicable)
+
+---
+
+## Error Handling
+
+Verify:
+
+- Meaningful error messages
+- Appropriate HTTP status codes
+- No internal implementation details exposed
+- No stack traces returned
+- Consistent error response format
+
+---
+
+## Data Validation
+
+Verify:
+
+- Data is correctly stored.
+- Data is correctly updated.
+- Data is correctly deleted.
+- Data is returned accurately.
+- Duplicate records are prevented where applicable.
+
+---
+
+## API Performance
+
+Verify:
+
+- Response time meets project expectations.
+- Large datasets are handled efficiently.
+- Pagination performs correctly.
+- No unnecessary delays.
+
+---
+
+## Security Validation
+
+Verify:
+
+- Authentication enforcement
+- Authorization checks
+- Sensitive data masking
+- Secure transport (HTTPS)
+- Input sanitization
+- Rate limiting (where applicable)
+
+---
+
+# Common HTTP Status Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | Success |
+| 201 | Resource Created |
+| 204 | No Content |
+| 400 | Bad Request |
+| 401 | Unauthorized |
+| 403 | Forbidden |
+| 404 | Not Found |
+| 409 | Conflict |
+| 422 | Validation Error |
+| 429 | Too Many Requests |
+| 500 | Internal Server Error |
+
+---
+
+# API Regression Testing
+
+Regression testing should verify that API changes do not impact:
+
+- Authentication
+- User Management
+- Wallet
+- Payments
+- Contest
+- Draft
+- Pick'em
+- Notifications
+- Rankings
+- Responsible Gaming
+- Admin APIs
+
+---
+
+# AI Agent Responsibilities
+
+Before generating API test cases or automation, AI agents should:
+
+- Review the relevant API documentation.
+- Understand the associated business rules.
+- Validate both positive and negative scenarios.
+- Consider edge cases and boundary conditions.
+- Verify API security requirements.
+- Generate reusable API test cases.
+- Avoid assumptions not supported by documentation.
+
+---
+
+# API Testing Tools
+
+Recommended tools include:
+
+- Postman
+- Swagger / OpenAPI
+- cURL
+- Playwright API Testing
+- Cypress API Testing
+
+The selected tool should follow the project's testing standards.
+
+---
+
+# Related Documentation
+
+- api/
+- flows/
+- automation/
+- Business Rules
+- Database Validation
+
+# 12. Database Validation
+
+## Overview
+
+Database validation ensures that business operations correctly create, update, retrieve, and maintain data consistency throughout the Drafters platform.
+
+Although QA activities primarily focus on frontend and API validation, database verification should be performed whenever backend data integrity is critical to business functionality.
+
+AI agents should understand the expected database behavior but should never directly modify production databases.
+
+---
+
+# Objectives
+
+Database validation aims to verify:
+
+- Data integrity
+- Data consistency
+- Business rule enforcement
+- Transaction accuracy
+- Relationship consistency
+- Audit information
+- Data synchronization across services
+
+---
+
+# General Validation Principles
+
+After every successful business operation, AI agents and QA engineers should verify that:
+
+- Expected records are created.
+- Existing records are updated correctly.
+- No duplicate records are created.
+- Invalid operations do not modify data.
+- Relationships between entities remain consistent.
+- Transaction history is accurate.
+- Audit information is updated where applicable.
+
+---
+
+# Authentication
+
+Verify:
+
+- User session is created.
+- Login timestamp is updated.
+- Failed login attempts do not modify user profile information.
+- Logout invalidates the active session.
+
+Reference:
+
+- flows/authentication.md
+- api/authentication.md
+
+---
+
+# Registration
+
+Verify:
+
+- User account is created.
+- Duplicate accounts are prevented.
+- Default profile information is initialized.
+- Registration timestamp is recorded.
+- Account status is correctly assigned.
+
+Reference:
+
+- flows/registration.md
+
+---
+
+# User Profile
+
+Verify:
+
+- Profile updates are saved successfully.
+- Only modified fields are updated.
+- Invalid updates do not corrupt user data.
+- Audit fields are maintained.
+
+Reference:
+
+- flows/profile.md
+
+---
+
+# KYC
+
+Verify:
+
+- Verification status is updated.
+- Submitted documents are associated with the correct user.
+- Verification history is maintained.
+- Failed verification does not incorrectly update account status.
+
+Reference:
+
+- flows/kyc.md
+
+---
+
+# Wallet
+
+Verify:
+
+- Wallet balance is updated correctly.
+- Transaction records are created.
+- Transaction amount is accurate.
+- Transaction status matches business outcome.
+- Failed transactions do not affect wallet balance.
+
+Reference:
+
+- flows/wallet.md
+
+---
+
+# Payments
+
+Verify:
+
+- Payment record is created.
+- Payment status is updated.
+- Duplicate transactions are prevented.
+- Refund records follow business rules.
+- Settlement information is maintained where applicable.
+
+Reference:
+
+- flows/finix-payment.md
+- flows/paypal.md
+
+---
+
+# Contest
+
+Verify:
+
+- Contest entry is created.
+- Entry fee transaction is recorded.
+- Contest participant count is updated.
+- Contest status reflects current lifecycle.
+
+Reference:
+
+- flows/contest.md
+
+---
+
+# Draft
+
+Verify:
+
+- Draft entry is created.
+- Draft status is updated correctly.
+- Player selections are stored accurately.
+- Duplicate player selections are prevented.
+- Pick history is maintained.
+
+Reference:
+
+- flows/draft.md
+
+---
+
+# Pick'em & Props
+
+Verify:
+
+- Entry is created successfully.
+- Pick selections are stored.
+- Contest status is updated correctly.
+- Settlement updates the entry accurately.
+- Booster eligibility follows business rules.
+
+Reference:
+
+- flows/pickem.md
+- flows/props.md
+- flows/props-booster.md
+
+---
+
+# Rankings
+
+Verify:
+
+- Rankings are updated after scoring.
+- Leaderboards reflect latest results.
+- Score calculations remain consistent.
+
+Reference:
+
+- flows/rankings.md
+- flows/leaderboard.md
+
+---
+
+# Notifications
+
+Verify:
+
+- Notification records are created.
+- Delivery status is updated.
+- Duplicate notifications are prevented.
+
+Reference:
+
+- flows/notifications.md
+
+---
+
+# Responsible Gaming
+
+Verify:
+
+- Deposit limits are stored correctly.
+- Restriction status is updated.
+- User settings are applied consistently.
+
+Reference:
+
+- flows/responsible-gaming.md
+
+---
+
+# Database Validation Checklist
+
+When database access is available, verify:
+
+- Record Creation
+- Record Update
+- Record Deletion (where applicable)
+- Data Integrity
+- Foreign Key Relationships
+- Duplicate Prevention
+- Audit Information
+- Transaction Consistency
+
+If direct database access is unavailable, validate expected behavior through APIs or application UI.
+
+---
+
+# AI Agent Responsibilities
+
+Before performing database validation, AI agents should:
+
+- Understand the related business workflow.
+- Review the corresponding flow documentation.
+- Validate expected data changes.
+- Verify data consistency after business operations.
+- Report any unexpected data modifications.
+- Never recommend or perform direct production database changes.
+
+---
+
+# Security Guidelines
+
+AI agents must never:
+
+- Modify production database records.
+- Delete production data.
+- Execute destructive database queries.
+- Store database credentials in documentation.
+- Expose sensitive user information.
+
+---
+
+# Related Documentation
+
+- flows/
+- api/
+- Business Rules
+- API QA Guidelines
+- Safety Rules
+
+# 13. Logging Requirements
+
+## Overview
+
+Logs play a critical role in identifying, diagnosing, and resolving issues within the Drafters platform.
+
+During manual testing, automation execution, API validation, and production verification, AI agents and QA engineers should review relevant logs to identify unexpected behavior, application failures, performance issues, and integration problems.
+
+Whenever possible, reported defects should include supporting log evidence.
+
+---
+
+# Logging Objectives
+
+Logging should help identify:
+
+- Application errors
+- API failures
+- Authentication issues
+- Payment failures
+- Third-party integration issues
+- Performance bottlenecks
+- Unexpected exceptions
+- Data inconsistencies
+
+---
+
+# Browser Console Logs (Web)
+
+For Web Application testing, verify:
+
+- No JavaScript exceptions
+- No uncaught runtime errors
+- No failed resource loading
+- No unexpected console errors
+- No deprecated API warnings affecting functionality
+
+Report:
+
+- JavaScript Errors
+- Console Exceptions
+- Failed Resource Requests
+- Critical Warnings
+
+Ignore:
+
+- Browser extension warnings
+- Documented third-party library warnings
+- Informational console messages
+
+---
+
+# Network Logs
+
+Review browser network activity and verify:
+
+- API request is triggered
+- Correct request payload
+- Correct response payload
+- HTTP status code
+- Response time
+- Authentication headers
+- No failed API requests
+- No duplicate API requests
+
+Report:
+
+- 4xx Errors
+- 5xx Errors
+- Timeout Errors
+- Invalid Response Structure
+
+---
+
+# Android Logs
+
+Review Android device logs (Logcat) and verify:
+
+- No application crashes
+- No ANR (Application Not Responding)
+- No fatal exceptions
+- No repeated runtime errors
+- No unexpected SDK failures
+
+Report:
+
+- Fatal Exceptions
+- Crash Logs
+- Memory Issues
+- Runtime Exceptions
+
+Ignore:
+
+- Informational logs
+- Debug logs
+- Documented SDK warnings
+
+---
+
+# iOS Logs
+
+Review iOS device or TestFlight logs and verify:
+
+- No application crashes
+- No fatal runtime exceptions
+- No unexpected framework errors
+- Stable application behavior
+
+Report:
+
+- Crash Logs
+- Fatal Exceptions
+- Runtime Errors
+
+Ignore:
+
+- Apple framework informational logs
+- Known simulator warnings (when applicable)
+
+---
+
+# Backend Logs
+
+When backend access is available, verify:
+
+- API execution
+- Business validation failures
+- Authentication failures
+- Payment processing
+- Database exceptions
+- Integration failures
+- Internal server errors
+
+Report:
+
+- Unhandled Exceptions
+- Database Errors
+- API Processing Errors
+- Integration Failures
+
+---
+
+# Third-Party Integration Logs
+
+Review logs for integrated services where available.
+
+Examples include:
+
+- Payment Gateway
+- KYC Provider
+- Push Notification Services
+- Email Services
+
+Verify:
+
+- Request Success
+- Response Status
+- Timeout Handling
+- Authentication
+- Retry Mechanisms
+
+---
+
+# Performance Logs
+
+Verify:
+
+- Slow API responses
+- High response times
+- Memory usage (where available)
+- CPU utilization (where available)
+- Network latency
+
+Report noticeable performance degradation.
+
+---
+
+# Defect Reporting Requirements
+
+When reporting issues, include:
+
+- Platform
+- Environment
+- Build Version
+- Timestamp
+- Relevant Logs
+- Console Output
+- API Response
+- Error Message
+- Screenshot
+- Screen Recording (if available)
+
+Providing supporting evidence improves issue investigation and resolution.
+
+---
+
+# AI Agent Responsibilities
+
+When analyzing failures, AI agents should:
+
+- Review relevant logs before drawing conclusions.
+- Correlate log entries with user actions.
+- Identify the probable root cause.
+- Distinguish between application issues and third-party failures.
+- Highlight critical errors separately from warnings.
+- Include relevant log excerpts in reports when appropriate.
+
+AI agents should never ignore critical exceptions or server-side errors.
+
+---
+
+# Logging Best Practices
+
+Always:
+
+- Capture logs immediately after reproducing an issue.
+- Include timestamps in reports.
+- Verify logs from the correct environment.
+- Attach supporting evidence with reported defects.
+- Protect sensitive information before sharing logs.
+
+Never:
+
+- Share authentication tokens.
+- Share production credentials.
+- Include personally identifiable information (PII) in reports.
+- Modify or delete production logs.
+
+---
+
+# Related Documentation
+
+- Frontend QA Guidelines
+- API QA Guidelines
+- Database Validation
+- Troubleshooting
+- Reporting Format
+
+# 14. Performance Expectations
+
+## Overview
+
+The Drafters platform should provide a fast, stable, and responsive experience across Web, Android, iOS, and the Admin Portal.
+
+Performance validation ensures that application features, APIs, and user interactions meet acceptable response times while maintaining reliability under normal operating conditions.
+
+AI agents and QA engineers should monitor performance throughout functional testing, regression testing, and production verification.
+
+---
+
+# Performance Objectives
+
+Performance validation should ensure:
+
+- Fast application response times
+- Smooth user experience
+- Stable application behavior
+- Efficient resource utilization
+- Reliable API performance
+- Consistent cross-platform performance
+
+---
+
+# Application Performance
+
+Verify:
+
+- Application launches successfully.
+- Screens load within acceptable time.
+- Navigation between screens is smooth.
+- UI interactions respond without noticeable delay.
+- No unexpected freezes or crashes occur.
+
+Expected Results
+
+- Responsive UI
+- Smooth transitions
+- Stable application behavior
+- Consistent performance across supported platforms
+
+---
+
+# Web Performance
+
+Verify:
+
+- Homepage loads successfully.
+- Contest Lobby loads efficiently.
+- Dashboard pages render correctly.
+- Images and static assets load completely.
+- Browser remains responsive during navigation.
+
+Monitor:
+
+- Initial page load
+- Navigation speed
+- Resource loading
+- Browser responsiveness
+
+---
+
+# Mobile Performance
+
+Verify on both Android and iOS:
+
+- Application startup time
+- Screen transition performance
+- Scroll performance
+- Animation smoothness
+- Memory stability
+- Battery usage (where applicable)
+
+Ensure:
+
+- No Application Not Responding (ANR)
+- No unexpected crashes
+- No excessive loading delays
+
+---
+
+# API Performance
+
+Verify:
+
+- APIs respond within acceptable response times.
+- Requests do not timeout unexpectedly.
+- Retry mechanisms work correctly.
+- Multiple requests are handled efficiently.
+
+Monitor:
+
+- Response Time
+- Latency
+- Error Rate
+- Throughput
+
+---
+
+# Authentication Performance
+
+Verify:
+
+- Login completes successfully.
+- Registration completes within acceptable time.
+- Session validation is responsive.
+- Logout completes without delay.
+
+---
+
+# Wallet & Payment Performance
+
+Verify:
+
+- Wallet information loads quickly.
+- Payment processing completes without unnecessary delay.
+- Transaction history loads efficiently.
+- Balance updates promptly after successful transactions.
+
+Monitor:
+
+- Payment processing time
+- Wallet synchronization
+- Transaction updates
+
+---
+
+# Contest Performance
+
+Verify:
+
+- Contest Lobby loads efficiently.
+- Contest details open quickly.
+- Contest joining completes successfully.
+- Contest status updates correctly.
+
+---
+
+# Draft Performance
+
+Verify:
+
+- Draft room loads before draft begins.
+- Player search responds efficiently.
+- Player selection updates immediately.
+- Draft timers remain synchronized.
+- Auto Pick executes according to configuration.
+
+---
+
+# Pick'em & Props Performance
+
+Verify:
+
+- Pick selection is responsive.
+- Entry submission completes successfully.
+- Contest settlement updates correctly.
+- Props Booster calculations do not impact responsiveness.
+
+---
+
+# Notification Performance
+
+Verify:
+
+- Notifications are delivered promptly.
+- Notification lists load correctly.
+- Notification status updates without delay.
+
+---
+
+# Performance Monitoring
+
+Where applicable, monitor:
+
+- Page Load Time
+- API Response Time
+- Memory Usage
+- CPU Utilization
+- Network Latency
+- Crash Rate
+
+---
+
+# Performance Regression
+
+AI agents and QA engineers should identify:
+
+- Slower response times
+- Increased loading times
+- Memory leaks
+- Performance degradation after releases
+- UI responsiveness issues
+- Excessive API latency
+
+Performance regressions should be reported with supporting evidence.
+
+---
+
+# AI Agent Responsibilities
+
+Before reporting performance issues, AI agents should:
+
+- Compare current performance with previous releases when possible.
+- Differentiate between application issues and network-related delays.
+- Include performance observations in QA reports.
+- Provide relevant screenshots, logs, or timing information.
+
+AI agents should report significant performance degradation that impacts user experience.
+
+---
+
+# Performance Best Practices
+
+Always:
+
+- Verify performance on supported platforms.
+- Test under normal network conditions.
+- Validate loading indicators.
+- Monitor API response times.
+- Observe application stability during extended usage.
+
+Never:
+
+- Assume performance issues without supporting evidence.
+- Ignore repeated slow responses.
+- Overlook platform-specific performance differences.
+
+---
+
+# Related Documentation
+
+- Frontend QA Guidelines
+- API QA Guidelines
+- Logging Requirements
+- Deployment Workflow
+- Reporting Format
+
+# 15. Coding Standards
+
+## Overview
+
+This section defines the coding and documentation standards that should be followed across the Drafters platform.
+
+The objective is to ensure that all code, automation scripts, documentation, and AI-generated outputs are consistent, maintainable, reusable, and easy to understand.
+
+AI agents should follow these standards when generating code, automation, documentation, or implementation recommendations.
+
+---
+
+# General Principles
+
+All code and documentation should be:
+
+- Simple and easy to understand.
+- Modular and reusable.
+- Consistent across the project.
+- Well-structured and maintainable.
+- Easy to review and extend.
+
+Avoid:
+
+- Duplicate code
+- Hardcoded values
+- Unnecessary complexity
+- Unused code
+- Poor naming conventions
+
+---
+
+# Naming Conventions
+
+Use meaningful and descriptive names for:
+
+- Classes
+- Methods
+- Variables
+- Constants
+- Test Cases
+- Page Objects
+- API Clients
+- Documentation Files
+
+Examples:
+
+- LoginPage
+- WalletPage
+- DraftPage
+- PaymentService
+- verifySuccessfulLogin()
+- submitPickemEntry()
+
+Avoid generic names such as:
+
+- test1
+- temp
+- data
+- value
+- obj
+
+---
+
+# Code Organization
+
+Code should be organized into logical modules.
+
+Recommended structure:
+
+- Business Logic
+- Page Objects
+- API Clients
+- Utilities
+- Test Data
+- Test Cases
+- Configuration
+
+Each component should have a single responsibility.
+
+---
+
+# Reusability
+
+Reusable components should be created for:
+
+- Common UI interactions
+- API requests
+- Authentication
+- Test data generation
+- Assertions
+- Utility methods
+- Reporting
+
+Avoid duplicating the same logic across multiple files.
+
+---
+
+# Configuration Management
+
+Configuration should be separated from implementation.
+
+Examples include:
+
+- Environment configuration
+- Base URLs
+- Timeouts
+- Feature flags
+- Test accounts
+
+Sensitive information must never be hardcoded.
+
+---
+
+# Test Design Standards
+
+Automated tests should:
+
+- Validate one business scenario per test.
+- Be independent and repeatable.
+- Use reusable helper methods.
+- Include meaningful assertions.
+- Avoid unnecessary dependencies.
+
+Test execution should produce consistent results.
+
+---
+
+# Assertions
+
+Assertions should:
+
+- Clearly validate expected behavior.
+- Produce meaningful failure messages.
+- Verify business outcomes instead of implementation details.
+- Be easy to understand.
+
+---
+
+# Synchronization
+
+Automation should prefer:
+
+- Explicit waits
+- Element state validation
+- API synchronization
+- Event-based synchronization
+
+Avoid:
+
+- Fixed delays
+- Excessive sleep statements
+- Unnecessary retries
+
+---
+
+# Logging
+
+Automation should log:
+
+- Test execution steps
+- User actions
+- API requests
+- Validation results
+- Failure details
+
+Logs should help identify failures without exposing sensitive information.
+
+---
+
+# Error Handling
+
+Code should:
+
+- Handle expected exceptions gracefully.
+- Fail with meaningful error messages.
+- Capture sufficient debugging information.
+- Avoid suppressing unexpected exceptions.
+
+---
+
+# Documentation Standards
+
+All documentation should:
+
+- Follow the approved repository template.
+- Be written in clear and concise language.
+- Use consistent terminology.
+- Be updated whenever functionality changes.
+- Include references to related documentation.
+
+---
+
+# AI Agent Responsibilities
+
+When generating code or documentation, AI agents should:
+
+- Follow project naming conventions.
+- Generate reusable and maintainable code.
+- Follow documented business rules.
+- Avoid unnecessary complexity.
+- Reuse existing components whenever possible.
+- Clearly explain assumptions when required.
+
+AI agents should never generate code that violates documented project standards.
+
+---
+
+# Best Practices
+
+Always:
+
+- Write readable code.
+- Use meaningful names.
+- Keep methods small and focused.
+- Reuse existing utilities.
+- Follow project conventions.
+- Update documentation with code changes.
+
+Never:
+
+- Hardcode credentials.
+- Duplicate business logic.
+- Ignore coding standards.
+- Generate undocumented functionality.
+
+---
+
+# Related Documentation
+
+- AGENTS.md
+- automation/
+- flows/
+- api/
+- templates/
+
+# 16. Deployment Workflow
+
+## Overview
+
+The Drafters platform follows a structured Software Development Life Cycle (SDLC) to ensure every feature is reviewed, tested, and validated before being released to production.
+
+This workflow helps maintain application quality, minimize production issues, and ensure consistent releases across Web, Android, iOS, and the Admin Portal.
+
+AI agents should understand the deployment workflow before generating test plans, regression suites, automation, or release reports.
+
+---
+
+# Deployment Lifecycle
+
+The standard deployment workflow follows the process below.
+
+```
+
+Business Requirement
+│
+▼
+Requirement Analysis
+│
+▼
+Design & Planning
+│
+▼
+Development
+│
+▼
+Code Review
+│
+▼
+Pull Request Approval
+│
+▼
+Merge into Development Branch
+│
+▼
+Deploy to Development Environment
+│
+▼
+Developer Verification
+│
+▼
+Deploy to Staging Environment
+│
+▼
+QA Functional Testing
+│
+▼
+Regression Testing
+│
+▼
+Business Validation (if required)
+│
+▼
+QA Approval
+│
+▼
+Production Approval
+│
+▼
+Production Deployment
+│
+▼
+Production Smoke Testing
+│
+▼
+Release Completed
+
+```
+
+---
+
+# Development Phase
+
+Responsibilities
+
+- Implement new features.
+- Fix reported defects.
+- Perform unit testing.
+- Update documentation where required.
+- Submit code for review.
+
+Deliverables
+
+- Source Code
+- Pull Request
+- Unit Test Results
+
+---
+
+# Code Review Phase
+
+Objectives
+
+- Verify coding standards.
+- Review business logic.
+- Identify potential regressions.
+- Ensure maintainability.
+- Validate implementation quality.
+
+---
+
+# Development Environment Validation
+
+Verify
+
+- Feature implementation
+- Initial functionality
+- Build stability
+- Basic API functionality
+
+---
+
+# Staging Environment Validation
+
+The Staging environment is the primary QA validation environment.
+
+QA should perform:
+
+- Functional Testing
+- Regression Testing
+- API Validation
+- Cross-Platform Testing
+- UI Validation
+- Business Rule Verification
+- Performance Observation
+- Smoke Testing (where applicable)
+
+---
+
+# Production Validation
+
+After deployment, QA should verify critical user journeys.
+
+Examples
+
+- Login
+- Registration
+- Wallet
+- Payment
+- Contest Join
+- Draft
+- Pick'em
+- Notifications
+
+Only production-safe verification should be performed.
+
+---
+
+# QA Approval Criteria
+
+Before approving a release, verify:
+
+- All planned features are implemented.
+- Critical defects are resolved.
+- Regression testing is completed.
+- No blocker or critical issues remain.
+- APIs function correctly.
+- No application crashes occur.
+- Release notes are reviewed.
+
+---
+
+# Release Checklist
+
+Before Production Deployment
+
+Verify:
+
+- Feature implementation completed.
+- Test cases executed.
+- Regression completed.
+- Build validated.
+- High-priority defects resolved.
+- Documentation updated.
+- Required approvals received.
+
+---
+
+# Rollback Strategy
+
+If a critical production issue is identified:
+
+- Notify the development team immediately.
+- Assess user impact.
+- Follow the approved rollback process.
+- Verify application stability after rollback.
+- Perform production smoke testing after recovery.
+
+---
+
+# AI Agent Responsibilities
+
+When assisting with release activities, AI agents should:
+
+- Review release scope.
+- Identify impacted business modules.
+- Recommend regression coverage.
+- Generate release validation checklists.
+- Highlight integration risks.
+- Generate production smoke test scenarios.
+- Summarize release risks.
+
+AI agents must never recommend production deployment without successful QA validation.
+
+---
+
+# Best Practices
+
+Always:
+
+- Test in Staging before Production.
+- Validate business rules.
+- Verify cross-platform consistency.
+- Review release notes.
+- Perform production smoke testing.
+- Document release observations.
+
+Never:
+
+- Skip regression testing for impacted modules.
+- Deploy unverified features.
+- Ignore blocker defects.
+- Perform destructive testing in Production.
+
+---
+
+# Related Documentation
+
+- Development Environment
+- Environment URLs
+- Frontend QA Guidelines
+- API QA Guidelines
+- Reporting Format
+- Release Notes
+
+# 17. AI Responsibilities
+
+## Overview
+
+This repository is designed to enable AI agents to assist QA Engineers, Automation Engineers, Developers, Product Managers, and Business Analysts throughout the software development lifecycle.
+
+AI agents should act as intelligent assistants by leveraging the documentation in this repository to generate accurate, maintainable, and business-compliant outputs.
+
+AI should always prioritize documented business rules over assumptions and should request clarification whenever documentation is incomplete or ambiguous.
+
+---
+
+# Primary Responsibilities
+
+AI agents are expected to assist with the following activities:
+
+- Understanding business requirements
+- Analyzing feature documentation
+- Generating QA documentation
+- Creating manual test cases
+- Generating automation scripts
+- Reviewing code changes
+- Performing API analysis
+- Identifying regressions
+- Supporting release validation
+- Creating technical documentation
+- Assisting with defect analysis
+
+---
+
+# Documentation Analysis
+
+AI agents should:
+
+- Read AGENTS.md before performing any task.
+- Review the relevant documentation under the `flows/` directory.
+- Understand business workflows before generating outputs.
+- Follow documented business rules.
+- Reference related documentation whenever applicable.
+
+AI should never generate outputs based solely on assumptions.
+
+---
+
+# Manual Testing Support
+
+AI agents should assist by generating:
+
+- Functional Test Cases
+- Regression Test Cases
+- Smoke Test Cases
+- Exploratory Testing Ideas
+- Cross-Platform Test Scenarios
+- Positive Test Scenarios
+- Negative Test Scenarios
+- Boundary Value Test Cases
+- Edge Case Scenarios
+
+Generated test cases should align with documented business requirements.
+
+---
+
+# Automation Support
+
+AI agents should assist with:
+
+- Appium Automation
+- Playwright Automation
+- Cypress Automation
+- API Automation
+- Test Data Preparation
+- Locator Suggestions
+- Page Object Design
+- Reusable Utility Functions
+
+Automation should follow the project's coding standards and best practices.
+
+---
+
+# API Analysis
+
+AI agents should:
+
+- Review API documentation.
+- Validate request and response structures.
+- Suggest API test scenarios.
+- Verify status codes.
+- Identify missing validations.
+- Detect potential security concerns.
+
+---
+
+# Defect Analysis
+
+When analyzing reported issues, AI agents should:
+
+- Review business rules.
+- Analyze reproduction steps.
+- Identify affected modules.
+- Suggest possible root causes.
+- Differentiate between UI, API, backend, and configuration issues.
+- Recommend additional validation where appropriate.
+
+---
+
+# Regression Analysis
+
+AI agents should:
+
+- Identify impacted modules.
+- Recommend regression coverage.
+- Suggest additional validation areas.
+- Highlight integration risks.
+- Review related business workflows.
+
+Regression recommendations should be based on documented dependencies.
+
+---
+
+# Documentation Support
+
+AI agents should assist in:
+
+- Creating new documentation.
+- Updating existing documentation.
+- Maintaining consistent formatting.
+- Improving documentation clarity.
+- Identifying outdated information.
+- Linking related documentation.
+
+Documentation should remain accurate and version controlled.
+
+---
+
+# Code Review Support
+
+AI agents may assist by reviewing:
+
+- Business logic
+- Coding standards
+- Naming conventions
+- Error handling
+- API usage
+- Test coverage
+- Maintainability
+- Security considerations
+
+AI recommendations should complement—not replace—human code reviews.
+
+---
+
+# Release Support
+
+AI agents should assist with:
+
+- Release readiness reviews
+- Regression planning
+- Smoke test planning
+- Release note generation
+- Risk assessment
+- Post-release validation
+
+---
+
+# AI Decision-Making Principles
+
+Before generating any output, AI agents should:
+
+1. Understand the requested task.
+2. Identify the affected business domain.
+3. Review the relevant documentation.
+4. Apply documented business rules.
+5. Consider platform-specific behavior.
+6. Validate assumptions.
+7. Generate structured and maintainable output.
+
+---
+
+# Expected AI Outputs
+
+AI agents may generate:
+
+- Business Documentation
+- Test Cases
+- Automation Scripts
+- API Test Cases
+- Bug Reports
+- Root Cause Analysis
+- Regression Checklists
+- Release Checklists
+- Code Review Feedback
+- Technical Documentation
+- Risk Assessments
+
+All outputs should follow the documentation standards defined in this repository.
+
+---
+
+# AI Limitations
+
+AI agents should:
+
+- Acknowledge uncertainty when documentation is incomplete.
+- Request clarification instead of making assumptions.
+- Avoid generating undocumented business logic.
+- Clearly identify assumptions when necessary.
+
+AI should support engineering decisions but should not replace human review and approval.
+
+---
+
+# Related Documentation
+
+- AGENTS.md
+- Business Rules
+- Frontend QA Guidelines
+- API QA Guidelines
+- Deployment Workflow
+- Safety Rules
+- Reporting Format
+- flows/
+- automation/
+
+# 18. Safety Rules
+
+## Overview
+
+Safety is a fundamental principle of the Drafters AI Documentation Repository.
+
+All AI agents, QA engineers, automation engineers, and developers must follow these safety rules to protect production systems, customer data, and business operations.
+
+AI-generated recommendations, automation scripts, and documentation should always prioritize security, reliability, and compliance.
+
+---
+
+# General Safety Principles
+
+Always:
+
+- Follow documented business rules.
+- Use approved QA environments for testing.
+- Protect sensitive information.
+- Verify changes before execution.
+- Follow the organization's deployment and approval process.
+- Report potential risks before implementation.
+
+Never:
+
+- Assume undocumented business logic.
+- Expose sensitive information.
+- Perform destructive actions without authorization.
+- Bypass security controls.
+- Recommend unsafe practices.
+
+---
+
+# Production Environment Safety
+
+Production is a live environment serving real users.
+
+AI agents and team members must never:
+
+- Modify production databases.
+- Delete production data.
+- Execute destructive SQL queries.
+- Disable authentication or authorization.
+- Perform load testing without approval.
+- Use production accounts for testing.
+- Execute experimental automation scripts.
+- Modify production configurations without an approved deployment process.
+
+Only production-safe validation activities such as smoke testing and critical functionality verification should be performed.
+
+---
+
+# Test Environment Safety
+
+Always:
+
+- Use approved QA or staging environments.
+- Use designated QA accounts.
+- Use approved test data.
+- Reset test data only in non-production environments.
+- Clearly identify the environment before testing.
+
+Never:
+
+- Mix production and test data.
+- Use personal accounts for testing.
+- Execute automation against production unless explicitly approved.
+
+---
+
+# Data Security
+
+Sensitive information must never be stored in this repository.
+
+Examples include:
+
+- Production credentials
+- API keys
+- Authentication tokens
+- Database passwords
+- Secret keys
+- Personally Identifiable Information (PII)
+- Financial information
+
+Sensitive data should always be managed through approved secure systems.
+
+---
+
+# Documentation Safety
+
+Documentation should:
+
+- Reflect the current application behavior.
+- Avoid exposing confidential information.
+- Clearly distinguish documented facts from assumptions.
+- Be reviewed and updated whenever business rules change.
+
+AI-generated documentation should never include confidential or proprietary information that is not intended for documentation.
+
+---
+
+# Automation Safety
+
+Automation scripts should:
+
+- Execute only approved test scenarios.
+- Clean up test data where applicable.
+- Avoid destructive operations.
+- Use environment-specific configurations.
+- Log execution details appropriately.
+
+Automation should never:
+
+- Hardcode credentials.
+- Modify production data.
+- Disable application safeguards.
+- Bypass authentication mechanisms.
+
+---
+
+# AI Safety Guidelines
+
+AI agents should:
+
+- Follow documented workflows.
+- Use repository documentation as the primary source of truth.
+- Request clarification when documentation is incomplete.
+- Clearly state assumptions when necessary.
+- Recommend safe and maintainable solutions.
+- Respect documented business rules.
+
+AI agents should never:
+
+- Invent undocumented business logic.
+- Recommend bypassing security controls.
+- Generate unsafe automation.
+- Recommend direct production changes.
+- Expose confidential information.
+
+---
+
+# Defect Reporting Safety
+
+When reporting issues:
+
+- Include only relevant technical information.
+- Remove sensitive data from logs and screenshots.
+- Do not expose user information.
+- Verify reproduction steps before reporting.
+- Clearly identify the affected environment.
+
+---
+
+# Approval Requirements
+
+The following activities require appropriate approval:
+
+- Production deployments
+- Database modifications
+- Configuration changes
+- Performance testing on production
+- Security-related changes
+- Access to production systems
+
+AI agents should recommend following the established approval process before these activities are performed.
+
+---
+
+# Best Practices
+
+Always:
+
+- Follow least-privilege access principles.
+- Validate changes in staging before production.
+- Keep documentation up to date.
+- Protect user privacy.
+- Follow organizational security policies.
+
+Never:
+
+- Store secrets in documentation.
+- Share confidential information.
+- Perform unauthorized operations.
+- Ignore security warnings.
+- Assume production behavior without verification.
+
+---
+
+# Related Documentation
+
+- Development Environment
+- Environment URLs
+- Deployment Workflow
+- AI Responsibilities
+- Reporting Format
+
+# 19. Reporting Format
+
+## Overview
+
+This section defines the standard reporting format for Quality Assurance activities performed within the Drafters platform.
+
+Consistent reporting enables QA Engineers, Developers, Product Managers, Business Analysts, and AI agents to communicate testing results clearly, efficiently, and accurately.
+
+All manual testing, automation execution, regression testing, smoke testing, API validation, and release verification should follow the reporting standards defined in this document.
+
+---
+
+# Reporting Objectives
+
+Every report should:
+
+- Clearly communicate the testing scope.
+- Identify the environment and application version.
+- Summarize test execution results.
+- Highlight critical issues and risks.
+- Provide sufficient evidence for reported defects.
+- Support release decision making.
+
+---
+
+# Standard Report Structure
+
+Every QA report should include the following sections:
+
+## 1. Report Summary
+
+Provide a brief overview of the testing activity.
+
+Include:
+
+- Testing objective
+- Scope of testing
+- Overall outcome
+
+---
+
+## 2. Environment Information
+
+Document:
+
+- Environment (Development / Staging / Production)
+- Platform (Web / Android / iOS / Admin Portal)
+- Build Version
+- Device / Browser
+- Test Date
+
+---
+
+## 3. Testing Scope
+
+List the modules or features tested.
+
+Examples:
+
+- Authentication
+- Wallet
+- Finix Payment
+- Contest
+- Draft
+- Pick'em
+- Notifications
+
+---
+
+## 4. Test Execution Summary
+
+Include:
+
+- Total Test Cases Executed
+- Passed
+- Failed
+- Blocked
+- Not Executed
+
+Where applicable, include automation execution statistics.
+
+---
+
+## 5. Defect Summary
+
+For each reported defect include:
+
+- Defect ID
+- Module
+- Severity
+- Priority
+- Status
+- Short Description
+
+Critical and blocker issues should be highlighted separately.
+
+---
+
+## 6. Observations
+
+Document:
+
+- UI observations
+- Functional observations
+- Performance observations
+- Platform-specific differences
+- Known limitations
+
+---
+
+## 7. Supporting Evidence
+
+Attach relevant evidence whenever available:
+
+- Screenshots
+- Screen Recordings
+- Browser Console Logs
+- API Responses
+- Network Logs
+- Crash Logs
+
+---
+
+## 8. Risk Assessment
+
+Highlight:
+
+- Critical Risks
+- Business Risks
+- Regression Risks
+- Release Risks
+
+Provide recommendations where appropriate.
+
+---
+
+## 9. Recommendations
+
+Examples:
+
+- Ready for Production
+- Ready after Minor Fixes
+- Regression Required
+- Additional Validation Required
+- Not Recommended for Release
+
+Clearly explain the reasoning behind the recommendation.
+
+---
+
+## 10. Overall Status
+
+Select one of the following:
+
+- ✅ Ready for Testing
+- ✅ Testing Completed
+- ✅ Ready for Release
+- ⚠️ Needs Fixes
+- ❌ Blocked
+- ❌ Release Not Recommended
+
+---
+
+# Defect Reporting Guidelines
+
+Every reported defect should include:
+
+- Title
+- Environment
+- Platform
+- Build Version
+- Preconditions
+- Steps to Reproduce
+- Expected Result
+- Actual Result
+- Severity
+- Priority
+- Supporting Evidence
+
+Defect reports should be reproducible and easy to understand.
+
+---
+
+# Automation Reporting
+
+Automation execution reports should include:
+
+- Test Suite Name
+- Execution Time
+- Total Tests
+- Passed Tests
+- Failed Tests
+- Skipped Tests
+- Failure Summary
+- Execution Logs
+- Screenshots (if applicable)
+
+---
+
+# AI Agent Responsibilities
+
+When generating reports, AI agents should:
+
+- Follow the standard reporting structure.
+- Summarize findings objectively.
+- Highlight critical issues first.
+- Include supporting evidence when available.
+- Avoid assumptions or unsupported conclusions.
+- Clearly distinguish observations from confirmed defects.
+
+AI-generated reports should be professional, concise, and actionable.
+
+---
+
+# Reporting Best Practices
+
+Always:
+
+- Use clear and professional language.
+- Include accurate environment details.
+- Attach supporting evidence.
+- Verify reported issues before submission.
+- Highlight business impact where applicable.
+
+Never:
+
+- Report unverified defects.
+- Omit critical testing information.
+- Include confidential or sensitive data.
+- Make assumptions without evidence.
+
+---
+
+# Related Documentation
+
+- Frontend QA Guidelines
+- API QA Guidelines
+- Logging Requirements
+- Deployment Workflow
+- Release Notes
+- reports/
+
+# 20. Known Limitations
+
+## Overview
+
+This section documents known limitations, expected behaviors, temporary workarounds, and platform-specific constraints within the Drafters platform.
+
+The purpose of this section is to help QA Engineers, Developers, Product Managers, Business Analysts, and AI agents distinguish between known limitations and newly introduced defects.
+
+Known limitations should be reviewed regularly and updated as the application evolves.
+
+---
+
+# Purpose
+
+This section helps to:
+
+- Prevent duplicate defect reporting.
+- Reduce unnecessary investigation.
+- Improve regression testing efficiency.
+- Provide context for expected application behavior.
+- Help AI agents identify existing limitations before reporting new issues.
+
+---
+
+# Known Limitation Categories
+
+Known limitations may include:
+
+- UI limitations
+- Platform-specific behavior
+- Third-party service limitations
+- Performance limitations
+- Temporary feature restrictions
+- Browser compatibility issues
+- Mobile device compatibility issues
+- Configuration limitations
+
+---
+
+# Temporary Known Issues
+
+Temporary issues that are already acknowledged by the development team should be documented with the following information:
+
+Include:
+
+- Module
+- Description
+- Affected Platform
+- Environment
+- Current Status
+- Planned Resolution (if available)
+- Reference (JIRA / Task ID)
+
+Example
+
+| Module | Issue | Platform | Status |
+|---------|-------|----------|--------|
+| Wallet | Example issue description | Web | Under Investigation |
+| Draft | Example issue description | Android | In Progress |
+
+---
+
+# Platform-Specific Limitations
+
+Some features may behave differently due to platform capabilities.
+
+Examples include:
+
+- Web-specific behavior
+- Android-specific behavior
+- iOS-specific behavior
+- Admin Portal limitations
+
+Platform differences should be documented separately in the relevant feature documentation.
+
+---
+
+# Third-Party Service Limitations
+
+Certain platform features depend on external services.
+
+Examples include:
+
+- Payment Gateway
+- Identity Verification (KYC)
+- Push Notification Services
+- Email Services
+
+Temporary service outages or provider limitations should be documented before reporting application defects.
+
+---
+
+# Environment Limitations
+
+Behavior may vary depending on the environment.
+
+Examples:
+
+- Development environment instability
+- Staging environment test data limitations
+- Feature flags enabled only in specific environments
+- Mock services replacing production integrations
+
+AI agents should verify the active environment before reporting issues.
+
+---
+
+# Performance Limitations
+
+Document known performance constraints such as:
+
+- Temporary slow API responses
+- Large dataset loading delays
+- Scheduled maintenance impacts
+- Third-party response delays
+
+Performance observations should be supported with evidence before creating new defect reports.
+
+---
+
+# Documentation Guidelines
+
+Every known limitation should include:
+
+- Feature or Module
+- Description
+- Affected Platform
+- Affected Environment
+- Severity
+- Current Status
+- Reference ID (if available)
+
+When the limitation is resolved, the documentation should be updated accordingly.
+
+---
+
+# AI Agent Responsibilities
+
+Before reporting a defect, AI agents should:
+
+- Review this section for existing limitations.
+- Check the relevant feature documentation.
+- Verify whether the behavior is expected.
+- Avoid reporting documented limitations as new issues.
+- Clearly distinguish between known limitations and newly identified defects.
+
+---
+
+# Best Practices
+
+Always:
+
+- Keep the list of known limitations up to date.
+- Reference related documentation where applicable.
+- Include issue tracking references when available.
+- Review limitations during regression testing.
+
+Never:
+
+- Treat documented limitations as new defects.
+- Leave outdated limitations in the documentation after they are resolved.
+- Assume all unexpected behavior is a new issue without verification.
+
+---
+
+# Related Documentation
+
+- flows/
+- troubleshooting/
+- release-notes/
+- Reporting Format
+- Business Rules
+
+# 21. Project-Specific Notes
+
+## Overview
+
+This section contains project-specific information that is unique to the Drafters platform and may not be evident from the source code alone.
+
+It provides additional context for QA Engineers, Automation Engineers, Developers, Product Managers, Business Analysts, and AI agents to understand platform-specific workflows, integrations, business configurations, and operational practices.
+
+This section should be reviewed and updated whenever significant business or technical changes are introduced.
+
+---
+
+# Platform Overview
+
+Drafters is a fantasy sports platform that supports multiple contest formats across Web, Android, iOS, and the Admin Portal.
+
+The platform includes:
+
+- User Authentication
+- Registration
+- KYC Verification
+- Wallet & Payments
+- Fantasy Contest Lobby
+- Draft Contests
+- Pick'em
+- Props
+- Props Booster
+- Best Ball
+- Best Ball Survival
+- Rankings
+- Leaderboards
+- Notifications
+- Rewards
+- Responsible Gaming
+- Admin Portal
+
+---
+
+# Supported Platforms
+
+The Drafters platform consists of:
+
+- Web Application
+- Android Application
+- iOS Application
+- Admin Portal
+- Backend APIs
+
+Unless documented otherwise, business functionality should remain consistent across supported platforms.
+
+---
+
+# Third-Party Integrations
+
+The platform integrates with external services that support business functionality.
+
+Examples include:
+
+- Finix Payment Gateway
+- PayPal
+- KYC Verification Provider
+- Push Notification Services
+- Email Services
+- Analytics & Monitoring Services
+
+Integration behavior may vary between environments and should be documented in the relevant feature documentation.
+
+---
+
+# Feature Flags
+
+Certain features may be controlled through feature flags or configuration settings.
+
+Examples include:
+
+- Contest availability
+- Payment methods
+- Responsible Gaming features
+- Promotional campaigns
+- Notification features
+- Experimental functionality
+
+AI agents should verify feature availability before generating automation or reporting defects.
+
+---
+
+# Business Configuration
+
+Many platform behaviors are configurable through the Admin Portal.
+
+Examples include:
+
+- Contest Configuration
+- Draft Configuration
+- Pick'em Configuration
+- Props Booster Configuration
+- Payment Configuration
+- Responsible Gaming Rules
+- Promotional Campaigns
+- Notification Settings
+
+Configuration changes may affect application behavior without requiring code changes.
+
+---
+
+# Cross-Platform Consistency
+
+The Drafters platform supports multiple client applications.
+
+AI agents and QA engineers should verify consistency across:
+
+- Business Logic
+- User Experience
+- API Behavior
+- Validation Rules
+- Calculations
+- Error Messages
+- Navigation Flow
+
+Platform-specific differences should be documented when they are intentional.
+
+---
+
+# QA Documentation Standards
+
+Every new feature should include documentation covering:
+
+- Business Overview
+- User Flow
+- Business Rules
+- Validation Rules
+- Test Scenarios
+- API Information
+- Automation Strategy
+- Platform Differences
+- Known Issues
+- Related Modules
+
+All documentation should follow the standard templates maintained in this repository.
+
+---
+
+# AI Documentation Standards
+
+AI agents should:
+
+- Read AGENTS.md before performing tasks.
+- Review the appropriate feature documentation.
+- Follow documented business rules.
+- Reference related modules.
+- Generate reusable documentation.
+- Maintain consistent formatting.
+- Request clarification when documentation is incomplete.
+
+---
+
+# Repository Maintenance
+
+This repository should be updated whenever:
+
+- A new feature is released.
+- Business rules change.
+- APIs are modified.
+- UI workflows are updated.
+- Automation standards change.
+- New integrations are introduced.
+- Release processes change.
+
+Maintaining current documentation ensures that AI-generated outputs remain accurate and aligned with the latest application behavior.
+
+---
+
+# Future Enhancements
+
+As the Drafters platform evolves, this repository may be expanded to include:
+
+- Detailed Architecture Documentation
+- API Reference Documentation
+- Automation Framework Guidelines
+- Performance Testing Standards
+- Security Testing Guidelines
+- Accessibility Guidelines
+- AI Prompt Library
+- Release Playbooks
+- Troubleshooting Guides
+- Knowledge Base Articles
+
+---
+
+# Repository Vision
+
+The long-term goal of this repository is to serve as the official knowledge base for the Drafters platform.
+
+It should enable:
+
+- Faster onboarding of new team members.
+- Consistent QA practices.
+- Standardized automation development.
+- Improved collaboration between teams.
+- AI-assisted software development and testing.
+- Centralized project knowledge.
+- Continuous documentation improvement.
+
+---
+
+# AI Agent Final Instructions
+
+Before generating any output, AI agents should:
+
+1. Read AGENTS.md.
+2. Understand the requested task.
+3. Identify the affected business domain.
+4. Review the corresponding documentation.
+5. Apply documented business rules.
+6. Consider platform-specific behavior.
+7. Follow QA and coding standards.
+8. Generate clear, maintainable, and reusable outputs.
+9. Avoid undocumented assumptions.
+10. Recommend clarification whenever documentation is insufficient.
+
+AI agents should treat this repository as the primary source of truth for the Drafters platform.
+
+---
+
+# Related Documentation
+
+- README.md
+- architecture/
+- flows/
+- api/
+- automation/
+- test-data/
+- reports/
+- troubleshooting/
+- release-notes/
