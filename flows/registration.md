@@ -122,6 +122,20 @@ Accept Terms of Use
 Click REGISTER
       │
       ▼
+Google reCAPTCHA v3 Validation
+      │
+ ┌──────┴──────────────┐
+ ▼                     ▼
+Passed          Failed / Low Score
+ │                     │
+ ▼                     ▼
+Proceed          Display Google
+                 reCAPTCHA v2 Challenge
+                      │
+                      ▼
+        User Completes reCAPTCHA v2
+                      │
+                      ▼
 Backend Validation
       │
       ▼
@@ -234,6 +248,13 @@ Detailed API documentation should be maintained under the `/api` directory.
 - OTP expires after the configured validity period.
 - User can request OTP resend after countdown completion.
 
+### Security Rules
+
+- Google reCAPTCHA v3 is executed automatically when the user submits the registration form.
+- If reCAPTCHA v3 validation fails or returns a low confidence score, Google reCAPTCHA v2 challenge is displayed.
+- OTP generation and account registration proceed only after successful reCAPTCHA verification.
+- If the user fails or cancels the reCAPTCHA v2 challenge, the registration request is not processed.
+
 ---
 
 # 8. Validation Rules
@@ -263,6 +284,8 @@ Detailed API documentation should be maintained under the `/api` directory.
 - Registration on Web.
 - Registration on Android.
 - Registration on iOS.
+- Registration with successful Google reCAPTCHA v3 validation.
+- Registration after successful Google reCAPTCHA v2 verification.
 
 ---
 
@@ -279,6 +302,9 @@ Detailed API documentation should be maintained under the `/api` directory.
 - Registration API failure.
 - OTP service unavailable.
 - Network interruption.
+- Google reCAPTCHA v3 validation fails.
+- User closes the Google reCAPTCHA v2 challenge.
+- User fails Google reCAPTCHA v2 verification.
 
 ---
 
@@ -361,6 +387,8 @@ Recommended automation coverage:
 
 - Registration flow.
 - Mandatory field validation.
+- Google reCAPTCHA v3 validation.
+- Google reCAPTCHA v2 fallback flow.
 - OTP popup.
 - OTP verification.
 - Resend OTP.
@@ -438,6 +466,9 @@ Registration depends on:
 - Duplicate account prevention.
 - Input validation.
 - Mobile verification.
+- Google reCAPTCHA v3 protects the registration endpoint from automated account creation.
+- Google reCAPTCHA v2 acts as a fallback verification mechanism when reCAPTCHA v3 validation is unsuccessful.
+- Registration requests are processed only after successful reCAPTCHA verification.
 
 ---
 
