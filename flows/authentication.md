@@ -129,6 +129,45 @@ Click LOG IN
 
         ▼
 
+Click LOG IN
+
+        │
+
+        ▼
+
+Google reCAPTCHA v3 Validation
+
+        │
+
+ ┌──────┴─────────┐
+
+ ▼                ▼
+
+Passed         Failed / Low Score
+
+ │                │
+
+ ▼                ▼
+
+Proceed to     Display Google
+Authentication reCAPTCHA v2 Challenge
+
+                  │
+
+                  ▼
+
+        User Completes reCAPTCHA v2
+
+                  │
+
+                  ▼
+
+        Proceed to Authentication
+
+                  │
+
+                  ▼
+
 Backend Authentication
 
         │
@@ -206,7 +245,10 @@ Detailed API documentation should be maintained in the `/api` directory.
 - Invalid credentials must not create a session.
 - Remember Me stores the authenticated session according to application policy.
 - Authenticated users are redirected to the Lobby/Home page.
-- Logout terminates the active session.
+- Google reCAPTCHA v3 is executed automatically when the user submits the login request.
+- If reCAPTCHA v3 verification fails or returns a low confidence score, Google reCAPTCHA v2 challenge is displayed.
+- User authentication proceeds only after successful reCAPTCHA validation.
+- If the user fails or cancels the reCAPTCHA v2 challenge, the login request is blocked.
 - If "Remember Me" is selected, the user's login session is retained according to the application's session policy, allowing the user to remain signed in across browser sessions until logout or session expiration.
 
 ---
@@ -231,6 +273,8 @@ Detailed API documentation should be maintained in the `/api` directory.
 - Login on Web.
 - Login on Android.
 - Login on iOS.
+- Login with successful Google reCAPTCHA v3 validation.
+- Login after successful Google reCAPTCHA v2 verification.
 - Logout successfully.
 
 ---
@@ -244,6 +288,9 @@ Detailed API documentation should be maintained in the `/api` directory.
 - Unregistered email.
 - Authentication API failure.
 - Network interruption.
+- Google reCAPTCHA v3 validation fails.
+- User closes the Google reCAPTCHA v2 challenge.
+- User fails Google reCAPTCHA v2 verification.
 
 ---
 
@@ -257,6 +304,9 @@ Detailed API documentation should be maintained in the `/api` directory.
 - Concurrent login attempts.
 - Remember Me enabled with browser restart.
 - Remember Me disabled with browser restart.
+- Google reCAPTCHA service is temporarily unavailable.
+- Google reCAPTCHA v3 returns a low confidence score.
+- Google reCAPTCHA v2 is displayed after v3 failure.
 - Logout after Remember Me session.
 
 ---
@@ -314,9 +364,13 @@ Sensitive credentials should not be committed to the repository.
 
 ### UI Automation
 
+### UI Automation
+
 - Login flow.
 - Validation messages.
 - Remember Me functionality.
+- Google reCAPTCHA v3 validation.
+- Google reCAPTCHA v2 fallback flow.
 - Session persistence after browser restart.
 - Logout.
 - Session validation.
@@ -387,6 +441,9 @@ Authentication depends on:
 - Unauthorized access prevention.
 - Session termination on logout.
 - Secure token handling.
+- Google reCAPTCHA v3 protects the login endpoint from automated bot traffic.
+- Google reCAPTCHA v2 serves as a fallback verification mechanism when reCAPTCHA v3 validation is unsuccessful.
+- Authentication requests are processed only after successful reCAPTCHA verification.
 
 ---
 
