@@ -103,6 +103,20 @@ Enter Registered Email
 Click "Send Reset Link"
       │
       ▼
+Google reCAPTCHA v3 Validation
+      │
+ ┌──────┴─────────┐
+ ▼                ▼
+Passed       Failed / Low Score
+ │                │
+ ▼                ▼
+Proceed       Display Google
+              reCAPTCHA v2 Challenge
+                   │
+                   ▼
+      User Completes reCAPTCHA v2
+                   │
+                   ▼
 Backend Validation
       │
       ▼
@@ -197,6 +211,13 @@ Detailed API documentation should be maintained under the `/api` directory.
 - Password reset link expires after the configured validity period.
 - Password cannot be updated using an expired or invalid reset link.
 
+### Security Rules
+
+- Google reCAPTCHA v3 is executed automatically when the user submits a password reset request.
+- If reCAPTCHA v3 validation fails or returns a low confidence score, Google reCAPTCHA v2 challenge is displayed.
+- Password reset requests are processed only after successful reCAPTCHA verification.
+- If the user fails or cancels the reCAPTCHA v2 challenge, the password reset request is not processed.
+
 ---
 
 # 8. Validation Rules
@@ -217,6 +238,8 @@ Detailed API documentation should be maintained under the `/api` directory.
 - Create new password successfully.
 - Login with updated password.
 - Verify old password no longer works.
+- Password reset request with successful Google reCAPTCHA v3 validation.
+- Password reset request after successful Google reCAPTCHA v2 verification.
 
 ---
 
@@ -231,6 +254,9 @@ Detailed API documentation should be maintained under the `/api` directory.
 - Weak password.
 - Backend failure.
 - Email delivery failure.
+- Google reCAPTCHA v3 validation fails.
+- User closes the Google reCAPTCHA v2 challenge.
+- User fails Google reCAPTCHA v2 verification.
 
 ---
 
@@ -242,6 +268,9 @@ Detailed API documentation should be maintained under the `/api` directory.
 - Slow network.
 - Copy-paste password.
 - Password with leading/trailing spaces.
+- Google reCAPTCHA service is temporarily unavailable.
+- Google reCAPTCHA v3 returns a low confidence score.
+- Google reCAPTCHA v2 is displayed after v3 failure.
 
 ---
 
@@ -300,6 +329,8 @@ Sensitive credentials should not be committed to the repository.
 
 - Forgot Password flow.
 - Email validation.
+- Google reCAPTCHA v3 validation.
+- Google reCAPTCHA v2 fallback flow.
 - Password reset.
 - Validation messages.
 
@@ -363,6 +394,9 @@ Forgot Password depends on:
 - Password encryption.
 - Prevent unauthorized password reset.
 - Password policy enforcement.
+- Google reCAPTCHA v3 protects the Forgot Password endpoint from automated requests.
+- Google reCAPTCHA v2 acts as a fallback verification mechanism when reCAPTCHA v3 validation is unsuccessful.
+- Password reset requests are processed only after successful reCAPTCHA verification.
 
 ---
 
