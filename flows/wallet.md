@@ -1,6 +1,6 @@
-# Wallet
+# Wallet (Cashier)
 
-> **Module:** Wallet
+> **Module:** Wallet (Cashier)
 >
 > **Application:** Drafters Fantasy Sports
 >
@@ -27,28 +27,29 @@
 3. Preconditions
 4. User Flow
 5. Entry Points
-6. Wallet Summary
-7. Wallet Sections
-8. Business Rules
-9. Validation Rules
-10. Positive Scenarios
-11. Negative Scenarios
-12. Edge Cases
-13. Error Messages
-14. Platform Differences
-15. Admin Configuration
-16. Test Data
-17. Automation Strategy
-18. AI Implementation
-19. Dependencies
-20. Security Considerations
-21. Performance Considerations
-22. Accessibility Considerations
-23. Related Modules
-24. Known Issues
-25. Future Enhancements
-26. Related Documentation
-27. Revision History
+6. Wallet Navigation
+7. Wallet Summary
+8. Wallet Sections
+9. Business Rules
+10. Validation Rules
+11. Positive Scenarios
+12. Negative Scenarios
+13. Edge Cases
+14. Error Messages
+15. Platform Differences
+16. Admin Configuration
+17. Test Data
+18. Automation Strategy
+19. AI Implementation
+20. Dependencies
+21. Security Considerations
+22. Performance Considerations
+23. Accessibility Considerations
+24. Related Modules
+25. Known Issues
+26. Future Enhancements
+27. Related Documentation
+28. Revision History
 
 ---
 
@@ -56,9 +57,11 @@
 
 ## Description
 
-The Wallet module provides users with a centralized location to manage their account balances, payment activities, promotional offers, tickets, and financial transactions.
+The Wallet (Cashier) module is the central financial hub of the Drafters application.
 
-The Wallet acts as the primary financial dashboard of the Drafters platform and allows users to access Deposit, Cash Out, Account History, Saved Cards, Offers, Tickets, and Verification.
+It allows users to view wallet balances, access deposit and withdrawal features, manage saved payment methods, review transaction history, view promotional tickets, and access available offers.
+
+The Wallet does not perform financial transactions directly. Instead, it provides navigation to the appropriate financial modules.
 
 ---
 
@@ -66,14 +69,17 @@ The Wallet acts as the primary financial dashboard of the Drafters platform and 
 
 The Wallet module is designed to:
 
-- Display available account balances.
-- Allow users to deposit funds.
-- Allow users to withdraw eligible funds.
-- Display promotional balances.
-- Display ticket balances.
-- Provide access to transaction history.
-- Manage payment methods.
-- Support responsible gaming controls.
+- Display account balances.
+- Display available contest balance.
+- Display active contest balance.
+- Display current winnings.
+- Display available tickets.
+- Provide access to Deposit.
+- Provide access to Cash Out.
+- Provide access to Account History.
+- Provide access to Saved Cards.
+- Provide access to Offers.
+- Provide access to Verification.
 
 ---
 
@@ -81,22 +87,22 @@ The Wallet module is designed to:
 
 Before accessing Wallet:
 
-- User is registered.
+- User account exists.
 - User is logged in.
 - Internet connection is available.
 
 Some wallet features require:
 
-- Completed KYC.
-- Eligible location.
-- Successful payment verification.
+- Successful KYC Verification.
+- Eligible account.
+- Supported payment method.
 
 ---
 
 # 4. User Flow
 
 ```text
-User Login
+Login
       │
       ▼
 Lobby
@@ -105,70 +111,92 @@ Lobby
 Click Wallet Balance
       │
       ▼
-Wallet
+Wallet (Cashier)
       │
       ▼
-Summary
+Summary Screen
       │
-      ├────────► Deposit
+      ├────────► Add Funds
+      │
+      ├────────► Add A Card
+      │
+      ├────────► Saved Cards
       │
       ├────────► Cash Out
       │
       ├────────► Account History
       │
-      ├────────► Saved Cards
-      │
-      ├────────► Offers
-      │
       ├────────► Tickets
       │
-      └────────► Verification
+      └────────► Offers
 ```
 
 ---
 
 # 5. Entry Points
 
-Users can access Wallet from:
+Users can open the Wallet from:
 
-- Lobby Wallet Balance
-- Deposit Success Screen
-- Navigation Menu
-- Account Menu
-
----
-
-# 6. Wallet Summary
-
-The Summary screen provides a quick overview of the user's financial status.
-
-Displayed information includes:
-
-- Cash Balance
-- Bonus Balance
-- Available to Play
-- In Play Amount
-- Ticket Balance
-- Deposit Button
-- Cash Out Button
-
-The Summary acts as the landing page of the Wallet.
+- Wallet Balance displayed in Lobby.
+- Deposit Success flow.
+- Navigation Menu.
+- Account Menu.
 
 ---
 
-# 7. Wallet Sections
+# 6. Wallet Navigation
 
-The Wallet contains the following sections:
+The Wallet contains the following navigation menu:
+
+- Summary
+- Add Funds
+- Add A Card
+- Saved Cards
+- Cash Out
+- Account History
+- Tickets
+- Offers
+
+Each menu opens its respective module.
+
+---
+
+# 7. Wallet Summary
+
+The Summary screen is the default landing page of the Wallet.
+
+It displays an overview of the user's financial account.
+
+### Summary Information
+
+| Field | Description |
+|--------|-------------|
+| Cash Balance | Total available cash balance in the wallet. |
+| Bonus Balance | Promotional bonus available for eligible contests. |
+| Available To Play | Total amount available to join contests (Cash + Eligible Bonus). |
+| In Play | Amount currently used in active contests. |
+| Currently Winning | Live winnings from contests that have not yet settled. |
+| Tickets | Total available promotional tickets. |
+
+### Action Button
+
+- Add Funds
+
+Selecting **Add Funds** redirects the user to the Deposit module.
+
+---
+
+# 8. Wallet Sections
 
 ## Summary
 
-Displays current balances.
+Displays wallet balances and financial overview.
 
 ---
 
 ## Add Funds
 
-Allows users to deposit money.
+Redirects the user to the Deposit flow.
 
 See:
 
@@ -176,9 +204,13 @@ See:
 
 ---
 
-## Cash Out
+## Add A Card
 
-Allows users to withdraw eligible funds.
+Allows users to add a new credit or debit card.
+
+See:
+
+`add-card.md`
 
 ---
 
@@ -186,232 +218,278 @@ Allows users to withdraw eligible funds.
 
 Displays previously saved payment cards.
 
-Allows adding or removing supported payment methods.
+Users can manage existing cards.
+
+See:
+
+`saved-cards.md`
+
+---
+
+## Cash Out
+
+Allows users to withdraw eligible funds.
+
+See:
+
+`cash-out.md`
 
 ---
 
 ## Account History
 
-Displays financial transactions.
+Displays all wallet transactions.
 
-Examples:
+Examples include:
 
-- Deposit
-- Withdrawal
-- Contest Entry
-- Contest Win
-- Bonus Credit
-- Refund
+- Deposits
+- Withdrawals
+- Contest Entries
+- Contest Winnings
+- Refunds
+- Bonus Credits
+
+See:
+
+`account-history.md`
 
 ---
 
 ## Tickets
 
-Displays available promotional tickets.
+Displays promotional tickets available in the user's account.
+
+See:
+
+`tickets.md`
 
 ---
 
 ## Offers
 
-Displays available promotions and bonus offers.
+Displays available promotional offers and deposit bonuses.
+
+See:
+
+`offers.md`
 
 ---
 
-## Verification
+# 9. Business Rules
 
-Displays KYC status and verification options.
-
----
-
-# 8. Business Rules
-
-- Wallet is available only for authenticated users.
-- Deposit requires completed KYC.
-- Cash Out requires eligible balance.
-- Bonus balance cannot always be withdrawn.
-- Available to Play is calculated according to business rules.
-- Ticket balance is maintained separately from cash balance.
-- Every financial transaction is recorded in Account History.
+- Wallet is accessible only after user login.
+- Deposit functionality may require completed KYC.
+- Cash Out is available only for eligible balances.
+- Bonus Balance may have usage restrictions.
+- Available To Play is calculated using Cash Balance and eligible Bonus Balance.
+- In Play balance cannot be withdrawn.
+- Currently Winning updates based on live contest status.
+- All wallet transactions are recorded in Account History.
 
 ---
 
-# 9. Validation Rules
+# 10. Validation Rules
 
 Verify:
 
-- Balance values.
-- Currency format.
-- Wallet calculations.
-- Navigation.
-- Section availability.
-- Verification status.
+- Cash Balance calculation.
+- Bonus Balance calculation.
+- Available To Play calculation.
+- In Play calculation.
+- Currently Winning calculation.
+- Ticket count.
+- Navigation to all wallet sections.
+- Wallet refresh after financial transactions.
 
 ---
 
-# 10. Positive Scenarios
+# 11. Positive Scenarios
 
-- Open Wallet.
+- Open Wallet successfully.
 - View Summary.
 - Navigate to Deposit.
+- Navigate to Add A Card.
+- Navigate to Saved Cards.
 - Navigate to Cash Out.
-- View Account History.
-- View Tickets.
-- View Offers.
-- View Saved Cards.
+- Navigate to Account History.
+- Navigate to Tickets.
+- Navigate to Offers.
+- Verify balances update after deposit.
 
 ---
 
-# 11. Negative Scenarios
+# 12. Negative Scenarios
 
 - Network unavailable.
-- Wallet service unavailable.
-- User session expired.
-- API failure.
-- Wallet balance unavailable.
+- Wallet API failure.
+- Session expired.
+- Unauthorized access.
+- Balance loading failure.
+- Unable to retrieve wallet information.
 
 ---
 
-# 12. Edge Cases
+# 13. Edge Cases
 
-- Wallet refresh.
+- Refresh Wallet during balance update.
+- Multiple Wallet open requests.
+- Session timeout while Wallet is open.
+- Simultaneous balance updates.
 - Slow API response.
-- Multiple navigation clicks.
-- Concurrent balance updates.
-- Session expiration.
+- Empty transaction history.
+- Zero balance account.
 
 ---
 
-# 13. Error Messages
+# 14. Error Messages
 
 | Scenario | Expected Result |
 |----------|-----------------|
 | Network Failure | Unable to load Wallet |
 | Session Expired | Please login again |
 | Server Error | Something went wrong |
-| Balance Unavailable | Unable to retrieve balance |
+| Balance Unavailable | Unable to retrieve wallet information |
+
+Use production messages whenever possible.
 
 ---
 
-# 14. Platform Differences
+# 15. Platform Differences
 
 | Feature | Web | Android | iOS |
 |----------|-----|----------|-----|
-| Wallet | Supported | Supported | Supported |
-| Summary | Supported | Supported | Supported |
-| Deposit | Supported | Supported | Supported |
+| Wallet Summary | Supported | Supported | Supported |
+| Add Funds | Supported | Supported | Supported |
+| Add A Card | Supported | Supported | Supported |
+| Saved Cards | Supported | Supported | Supported |
 | Cash Out | Supported | Supported | Supported |
 | Account History | Supported | Supported | Supported |
-| Saved Cards | Supported | Supported | Supported |
+| Tickets | Supported | Supported | Supported |
+| Offers | Supported | Supported | Supported |
 
 ---
 
-# 15. Admin Configuration
+# 16. Admin Configuration
 
 Administrators can configure:
 
 - Wallet enable/disable.
-- Balance calculation rules.
-- Ticket rules.
-- Bonus rules.
-- Responsible Gaming limits.
+- Cash Balance calculation.
+- Bonus calculation rules.
+- Ticket allocation.
+- Deposit availability.
 - Cash Out eligibility.
-- Payment methods.
+- Offers visibility.
+- Responsible Gaming limits.
 - Feature flags.
 
 ---
 
-# 16. Test Data
+# 17. Test Data
 
 | Scenario | Test Data |
 |----------|-----------|
-| New User | No deposit |
-| Existing User | Deposit completed |
-| Bonus User | Active promotion |
-| Ticket User | Available tickets |
-| Withdrawal User | Eligible balance |
+| New User | Zero balance |
+| Existing User | Positive balance |
+| Bonus User | Bonus available |
+| Ticket User | Tickets available |
+| Contest User | In Play balance |
+| Winning User | Currently Winning amount |
 
 ---
 
-# 17. Automation Strategy
+# 18. Automation Strategy
 
-UI Automation
+### UI Automation
 
 - Wallet navigation.
+- Summary validation.
 - Balance verification.
-- Deposit navigation.
-- Cash Out navigation.
-- Account History.
-- Tickets.
-- Offers.
+- Navigation to all Wallet sections.
+- Balance refresh after deposit.
+- Balance refresh after contest join.
 
-API Automation
+### API Automation
 
 - Wallet API.
 - Balance API.
 - Ticket API.
 
+### Regression
+
+- Cross-browser.
+- Android.
+- iOS.
+
+Recommended Frameworks:
+
+- Playwright
+- Appium
+
 ---
 
-# 18. AI Implementation
+# 19. AI Implementation
 
-AI should generate:
+AI should be able to:
 
-- Wallet automation.
-- Balance validation.
-- Navigation tests.
-- Regression scenarios.
-- API verification.
+- Generate Wallet automation.
+- Validate balance calculations.
+- Generate Wallet API tests.
+- Generate regression scenarios.
+- Review Wallet business rules.
 
 ---
 
-# 19. Dependencies
+# 20. Dependencies
 
 - Authentication
-- KYC
 - Deposit
-- Cash Out
-- Tickets
-- Offers
-- Account History
+- Add Card
 - Saved Cards
+- Cash Out
+- Account History
+- Offers
+- Tickets
+- Responsible Gaming
 
 ---
 
-# 20. Security Considerations
+# 21. Security Considerations
 
 - HTTPS communication.
-- Secure balance retrieval.
-- Authenticated sessions.
+- Authenticated session.
 - Secure financial APIs.
-- User authorization.
+- Authorization validation.
+- Secure wallet balance retrieval.
 
 ---
 
-# 21. Performance Considerations
+# 22. Performance Considerations
 
-- Wallet should load quickly.
-- Balance updates should be immediate.
-- Navigation should remain responsive.
+- Wallet should load within acceptable response time.
+- Balance updates should be reflected immediately after successful transactions.
+- Navigation between Wallet sections should be responsive.
 
 ---
 
-# 22. Accessibility Considerations
+# 23. Accessibility Considerations
 
 Verify:
 
 - Keyboard navigation.
-- Screen reader support.
+- Screen reader compatibility.
 - Focus order.
 - Color contrast.
-- Readable balance information.
+- Readable financial information.
 
 ---
 
-# 23. Related Modules
+# 24. Related Modules
 
 - Deposit
-- Cash Out
+- Add Card
 - Saved Cards
+- Cash Out
 - Account History
 - Offers
 - Tickets
@@ -419,30 +497,35 @@ Verify:
 
 ---
 
-# 24. Known Issues
+# 25. Known Issues
 
-Document known Wallet issues.
+Document current Wallet-related issues.
+
+Leave blank if none exist.
 
 ---
 
-# 25. Future Enhancements
+# 26. Future Enhancements
 
 Document confirmed roadmap items only.
 
----
-
-# 26. Related Documentation
-
-- deposit.md
-- account-history.md
-- saved-cards.md
-- cash-out.md
-- offers.md
-- tickets.md
+Avoid documenting speculative enhancements.
 
 ---
 
-# 27. Revision History
+# 27. Related Documentation
+
+- flows/deposit.md
+- flows/add-card.md
+- flows/saved-cards.md
+- flows/cash-out.md
+- flows/account-history.md
+- flows/tickets.md
+- flows/offers.md
+
+---
+
+# 28. Revision History
 
 | Version | Date | Author | Description |
 |----------|------|--------|-------------|
