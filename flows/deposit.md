@@ -213,81 +213,195 @@ If the user has insufficient funds, an **Insufficient Balance** message is displ
 
 # 6. UI Screens
 
-## 6.1 Welcome Deposit Screen
+## 6.1 Welcome Deposit Screen (First-Time Users)
 
-Displayed only for first-time eligible users.
+Displayed after successful KYC verification when the user clicks **Deposit Now** from the Welcome Deposit banner.
 
 ### Components
 
-- Welcome Bonus banner
-- Promo Code field
+- Welcome Bonus Banner
+- Promo Code field (pre-filled with default Welcome Promo)
 - Deposit Amount field
-- Preset Amount buttons
-- Payment Method selection
+- Preset Amount buttons ($25, $50, $100, $500)
+- Payment Method buttons
 - Skip and Go To Lobby
 
 ---
 
 ## 6.2 Cashier Summary
 
+Accessible from:
+
+- Deposit button
+- Wallet Balance
+- Cashier
+
 Displays:
 
 - Cash Balance
 - Bonus Balance
-- Available to Play
-- In Play Balance
+- Available To Play
+- In Play
+- Currently Winning
 - Tickets
 - Add Funds button
 
----
-
-## 6.3 Payment Method Screen
-
-Available payment methods are displayed based on platform.
+Clicking **Add Funds** opens the Deposit flow.
 
 ---
 
-## 6.4 Deposit Details Screen
+## 6.3 Payment Method Selection
 
-Depending on payment method, user enters payment details.
+After clicking **Add Funds**, users can choose a payment method.
 
-Examples:
-
-- Credit / Debit Card
-- PayPal
-- Apple Pay (iOS)
-
----
-
-# 7. Payment Methods
-
-## Web
-
-Supported:
+### Web
 
 - PayPal
 - Credit / Debit Card
 
----
-
-## Android
-
-Supported:
+### Android
 
 - PayPal
 - Credit / Debit Card
 
----
-
-## iOS
-
-Supported:
+### iOS
 
 - PayPal
 - Apple Pay
 - Credit / Debit Card
 
 ---
+
+## 6.4 PayPal Deposit Screen
+
+### Components
+
+- Deposit Amount
+- Preset Amount buttons
+- Promo Code
+- Apply Promo button
+- PayPal button
+
+### Behaviour
+
+- User selects amount.
+- User may apply a promo code.
+- Clicking **PayPal** redirects to the PayPal payment gateway.
+- After successful authorization, the user returns to Drafters and the deposit is completed.
+
+---
+
+## 6.5 Apple Pay Deposit Screen (iOS)
+
+### Components
+
+- Deposit Amount
+- Preset Amount buttons
+- Promo Code
+- Apply Promo button
+- Apple Pay button
+
+### Behaviour
+
+- Available only on iOS supported devices.
+- User authorizes payment using Apple Pay.
+- After successful authorization, deposit is completed.
+
+---
+
+## 6.6 Credit / Debit Card Deposit Screen
+
+### Components
+
+- Deposit Amount
+- Preset Amount buttons
+- Promo Code
+- Apply button
+- Name on Card
+- Card Number
+- Expiry Date
+- CVV
+- Zip / Postal Code
+- Deposit button
+
+### Behaviour
+
+- User enters card details.
+- Promo code is validated.
+- Clicking **Deposit** initiates payment processing.
+
+For the first card addition:
+
+- Invisible reCAPTCHA v3 is executed.
+- If reCAPTCHA v3 validation fails, reCAPTCHA v2 challenge is displayed.
+- Deposit proceeds only after successful reCAPTCHA verification.
+
+For saved cards:
+
+- Saved card details are used.
+- No reCAPTCHA challenge is displayed.
+
+# 7. Payment Methods
+
+## PayPal
+
+Supported Platforms
+
+- Web
+- Android
+- iOS
+
+Flow
+
+1. Select PayPal.
+2. Choose Deposit Amount.
+3. Apply Promo Code (optional).
+4. Redirect to PayPal.
+5. Authenticate payment.
+6. Return to Drafters.
+7. Wallet updated.
+
+---
+
+## Apple Pay
+
+Supported Platform
+
+- iOS only
+
+Flow
+
+1. Select Apple Pay.
+2. Choose Deposit Amount.
+3. Apply Promo Code (optional).
+4. Complete Apple Pay authorization.
+5. Wallet updated.
+
+---
+
+## Credit / Debit Card
+
+Supported Platforms
+
+- Web
+- Android
+- iOS
+
+Flow
+
+1. Choose Deposit Amount.
+2. Enter Promo Code (optional).
+3. Enter Card Details.
+4. Complete reCAPTCHA (first card only).
+5. Submit Deposit.
+6. Payment processed.
+7. Wallet updated.
+
+For saved cards:
+
+- Card details are auto-filled.
+- User selects saved card.
+- reCAPTCHA is not required.
 
 # 8. Promo Code
 
@@ -325,6 +439,33 @@ Supported:
 - Welcome Deposit Banner disappears after the first successful deposit.
 - Users with insufficient wallet balance are prompted to deposit before joining paid contests.
 
+## Deposit Amount
+
+- User may enter a custom amount.
+- User may select preset deposit amounts.
+- Custom amount must satisfy configured minimum and maximum limits.
+
+## Payment Methods
+
+- Available payment methods depend on platform.
+- Apple Pay is available only on supported iOS devices.
+- Unsupported payment methods are hidden.
+
+## Credit / Debit Card
+
+- New card requires all mandatory fields.
+- Saved cards may be reused.
+- First-time card addition requires reCAPTCHA validation.
+- Saved cards do not require reCAPTCHA.
+
+## PayPal
+
+- Deposit completes only after successful PayPal authorization.
+
+## Apple Pay
+
+- Deposit completes only after successful Apple Pay authorization.
+
 ---
 
 # 10. Validation Rules
@@ -333,10 +474,16 @@ Supported:
 |--------|------------|
 | Deposit Amount | Required |
 | Promo Code | Optional |
+| Name on Card | Required |
+| Card Number | Required |
+| Expiry Date | Required |
+| CVV | Required |
+| Zip Code | Required |
 | Payment Method | Required |
-| Card Details | Required for Card payment |
-| PayPal | Successful authentication required |
-| Apple Pay | Successful authorization required |
+| PayPal Authorization | Required |
+| Apple Pay Authorization | Required |
+| reCAPTCHA v3 | Executed for first card addition |
+| reCAPTCHA v2 | Displayed if v3 validation fails |
 
 ---
 
@@ -353,6 +500,14 @@ Supported:
 - Bonus balance updates correctly.
 - Account History entry created.
 - Welcome Banner disappears after first successful deposit.
+- Deposit using custom amount.
+- Deposit using preset amount.
+- Deposit with saved card.
+- Deposit with newly added card.
+- Deposit after successful reCAPTCHA v3.
+- Deposit after reCAPTCHA v2 fallback.
+- Successful PayPal authorization.
+- Successful Apple Pay authorization.
 
 ---
 
@@ -371,6 +526,15 @@ Supported:
 - Payment gateway failure.
 - Unsupported payment method.
 - Attempt to reuse first deposit promo.
+- Empty card number.
+- Invalid card number.
+- Invalid CVV.
+- Invalid expiry date.
+- Invalid ZIP code.
+- PayPal authorization cancelled.
+- Apple Pay authorization cancelled.
+- reCAPTCHA validation failed.
+- Payment gateway timeout.
 
 ---
 
@@ -386,6 +550,12 @@ Supported:
 - Switching payment methods.
 - Slow network.
 - Payment succeeds but response delayed.
+- Switch payment method before deposit.
+- Change promo after amount selection.
+- Remove promo before payment.
+- Add multiple saved cards.
+- Payment succeeds after retry.
+- Payment gateway callback delayed.
 
 ---
 
@@ -403,6 +573,13 @@ Supported:
 | Network Failure | Unable to process request |
 | Server Error | Something went wrong |
 | Insufficient Balance | Insufficient balance |
+| Invalid Card | Invalid card details |
+| Invalid CVV | Invalid CVV |
+| Invalid Expiry | Invalid expiry date |
+| Invalid ZIP | Invalid ZIP code |
+| reCAPTCHA Failed | Verification failed. Please try again. |
+| PayPal Cancelled | Payment cancelled |
+| Apple Pay Cancelled | Payment cancelled |
 
 Use production messages whenever possible.
 
